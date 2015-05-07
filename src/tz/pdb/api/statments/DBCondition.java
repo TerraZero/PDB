@@ -1,6 +1,6 @@
 package tz.pdb.api.statments;
 
-import tz.pdb.SysVar;
+import tz.pdb.api.DBVar;
 import tz.pdb.api.base.DBChain;
 import tz.pdb.api.base.DBExecute;
 
@@ -16,12 +16,22 @@ import tz.pdb.api.base.DBExecute;
  */
 public interface DBCondition extends DBExecute, DBChain<DBCondition> {
 	
+	public static final String EQUAL = "=";
+	public static final String OP_AND = "AND";
+	public static final String OP_OR = "OR";
+	
 	public default DBCondition and(String one, String two) {
-		return this.and(one, two, "=");
+		return this.and(one, two, DBCondition.EQUAL);
 	}
 	
 	public DBCondition and(String one, String two, String equal);
 	
-	public DBCondition and(SysVar var);
+	public default DBCondition or(String one, String two) {
+		return this.or(one, two, DBCondition.EQUAL);
+	}
+	
+	public DBCondition or(String one, String two, String equal);
+	
+	public DBCondition and(DBVar var);
 	
 }

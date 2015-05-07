@@ -1,5 +1,7 @@
 package tz.pdb.api.driver;
 
+import tz.pdb.api.DBSelect;
+
 /**
  * 
  * @author terrazero
@@ -11,5 +13,9 @@ package tz.pdb.api.driver;
  *
  */
 public interface DBDriver {
+	
+	public boolean connect(String host, String user, String pass);
 
+	public DBSelect select();
+	
 }

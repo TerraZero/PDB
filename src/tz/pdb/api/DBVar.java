@@ -1,4 +1,4 @@
-package tz.pdb;
+package tz.pdb.api;
 
 import tz.pdb.api.base.DBExecute;
 
@@ -12,15 +12,15 @@ import tz.pdb.api.base.DBExecute;
  * @identifier TZ.sql
  *
  */
-public class SysVar implements DBExecute {
+public class DBVar implements DBExecute {
 
 	protected String[] values;
 	
-	public SysVar(DBExecute execute) {
+	public DBVar(DBExecute execute) {
 		this(execute.execute());
 	}
 	
-	public SysVar(String... values) {
+	public DBVar(String... values) {
 		this.values = values;
 	}
 	

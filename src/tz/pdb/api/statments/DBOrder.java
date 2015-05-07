@@ -1,6 +1,6 @@
 package tz.pdb.api.statments;
 
-import tz.pdb.SysVar;
+import tz.pdb.api.DBVar;
 import tz.pdb.api.base.DBChain;
 import tz.pdb.api.base.DBExecute;
 
@@ -22,6 +22,6 @@ public interface DBOrder extends DBExecute, DBChain<DBOrder> {
 	
 	public DBOrder order(String field, String direction);
 	
-	public DBOrder order(SysVar var);
+	public DBOrder order(DBVar var);
 	
 }

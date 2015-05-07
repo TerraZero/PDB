@@ -1,6 +1,5 @@
 package tz.pdb.api;
 
-import tz.pdb.SysVar;
 import tz.pdb.api.base.DBExecute;
 import tz.pdb.api.statments.DBCondition;
 import tz.pdb.api.statments.DBJoin;
@@ -19,28 +18,30 @@ import tz.pdb.api.statments.DBOrder;
 public interface DBSelect extends DBExecute {
 
 	public default DBSelect fields(String table, String... fields) {
-		return this.fields(table, new SysVar(fields));
+		return this.fields(table, new DBVar(fields));
 	}
 	
-	public DBSelect fields(String table, SysVar fields);
+	public DBSelect fields(String table, DBVar fields);
 	
-	public DBSelect fields(SysVar var);
+	public DBSelect fields(DBVar var);
 	
-	public default DBJoin join(String type, String table, String one, String two) {
-		return this.join(type, table, one, two, "=");
+	public DBSelect from(String table, String alias);
+	
+	public default DBJoin join(String type, String table, String alias, String one, String two) {
+		return this.join(type, table, alias, one, two, DBCondition.EQUAL);
 	}
 	
-	public DBJoin join(String type, String table, String one, String two, String equal);
+	public DBJoin join(String type, String table, String alias, String one, String two, String equal);
 	
-	public DBJoin join(SysVar var);
+	public DBJoin join(DBVar var);
 	
 	public default DBCondition where(String one, String two) {
-		return this.where(one, two, "=");
+		return this.where(one, two, DBCondition.EQUAL);
 	}
 	
 	public DBCondition where(String one, String two, String equal);
 	
-	public DBCondition where(SysVar var);
+	public DBCondition where(DBVar var);
 	
 	public default DBOrder order(String field) {
 		return this.order(field, "ASC");
@@ -48,7 +49,7 @@ public interface DBSelect extends DBExecute {
 	
 	public DBOrder order(String field, String direction);
 	
-	public DBOrder order(SysVar var);
+	public DBOrder order(DBVar var);
 	
 	public default DBSelect limit(int length) {
 		return this.limit(0, length);
@@ -56,6 +57,12 @@ public interface DBSelect extends DBExecute {
 	
 	public DBSelect limit(int offset, int length);
 	
-	public DBSelect limit(SysVar var);
+	public DBSelect limit(DBVar var);
+	
+	
+	
+	public boolean hasTable(String table);
+	
+	public String tableAlias(String table);
 	
 }
