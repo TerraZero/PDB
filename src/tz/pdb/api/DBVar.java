@@ -1,6 +1,6 @@
 package tz.pdb.api;
 
-import tz.pdb.api.base.DBExecute;
+import tz.pdb.api.base.DBCreate;
 
 /**
  * 
@@ -12,12 +12,12 @@ import tz.pdb.api.base.DBExecute;
  * @identifier TZ.sql
  *
  */
-public class DBVar implements DBExecute {
+public class DBVar implements DBCreate {
 
 	protected String[] values;
 	
-	public DBVar(DBExecute execute) {
-		this(execute.execute());
+	public DBVar(DBCreate execute) {
+		this(execute.create());
 	}
 	
 	public DBVar(String... values) {
@@ -28,7 +28,7 @@ public class DBVar implements DBExecute {
 		return this.values;
 	}
 	
-	public String execute() {
+	public String create() {
 		if (this.values == null) {
 			return "";
 		} else if (this.values.length == 1) {

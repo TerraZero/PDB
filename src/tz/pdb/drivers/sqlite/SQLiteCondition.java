@@ -32,14 +32,14 @@ public class SQLiteCondition implements DBCondition {
 	 * @see tz.pdb.api.base.DBExecute#execute()
 	 */
 	@Override
-	public String execute() {
+	public String create() {
 		String s = "";
 		if (this.operation != null) {
 			s += " " + this.operation;
 		}
 		s += " " + this.one + " " + this.equal + " " + this.two;
 		if (this.next != null) {
-			s += this.next.execute();
+			s += this.next.create();
 		}
 		return s;
 	}

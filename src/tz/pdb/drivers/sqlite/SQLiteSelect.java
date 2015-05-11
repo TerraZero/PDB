@@ -1,10 +1,14 @@
 package tz.pdb.drivers.sqlite;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import tz.core.logger.Log;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBVar;
 import tz.pdb.api.statments.DBCondition;
@@ -25,18 +29,18 @@ public class SQLiteSelect implements DBSelect {
 	
 	public static final String DEFAULT_FIELD_TABLE = "FIELDS";
 	
+	private Map<String, String> placeholders;
+	
 	private String table;
 	private String alias;
-	
-	private Map<String, String> tables;
 	private Map<String, List<DBVar>> fields;
-	private List<SQLiteJoinNode> joins;
+	private List<SQLiteJoin> joins;
 	private List<SQLiteCondition> conditions;
 	
 	public SQLiteSelect() {
-		this.tables = new HashMap<String, String>();
+		this.placeholders = new HashMap<String, String>();
 		this.fields = new HashMap<String, List<DBVar>>();
-		this.joins = new ArrayList<SQLiteJoinNode>();
+		this.joins = new ArrayList<SQLiteJoin>();
 		this.conditions = new ArrayList<SQLiteCondition>();
 	}
 
@@ -44,7 +48,7 @@ public class SQLiteSelect implements DBSelect {
 	 * @see tz.pdb.api.base.DBExecute#execute()
 	 */
 	@Override
-	public String execute() {
+	public String create() {
 		String s = "SELECT ";
 		
 		StringBuilder string = new StringBuilder();
@@ -61,7 +65,7 @@ public class SQLiteSelect implements DBSelect {
 		
 		string.setLength(0);
 		this.joins.forEach((join) -> {
-			string.append(" " + join.execute());
+			string.append(" " + join.create());
 		});
 		s += string.toString();
 		
@@ -69,12 +73,49 @@ public class SQLiteSelect implements DBSelect {
 			s += " WHERE";
 			string.setLength(0);
 			this.conditions.forEach((condition) -> {
-				string.append(" AND (" + condition.execute() + " )");
+				string.append(" AND (" + condition.create() + " )");
 			});
 			s += string.substring(4).toString();
 		}
 		
 		return s;
+	}
+	
+	/* 
+	 * @see tz.pdb.api.base.DBStatement#statement()
+	 */
+	@Override
+	public String statement() {
+		String statement = this.create();
+		
+		for(Entry<String, String> entry : this.placeholders.entrySet()) {
+			String value = null;
+			char prefix = entry.getKey().charAt(0);
+			
+			switch (prefix) {
+				case '!' :
+					value = entry.getValue();
+					break;
+				case ':' :
+					value = "'" + entry.getValue() + "'";
+					break;
+				case '#' :
+					try {
+						int test = Integer.parseInt(entry.getValue());
+						value = test + "";
+					} catch (NumberFormatException e) {
+						Log.warning(Log.ident("DB", "Driver", "SQLite", "Select"), "Value [0] can not be converted into integer.", entry.getValue());
+					}
+					break;
+				default :
+					Log.warning(Log.ident("DB", "Driver", "SQLite", "Select"), "Placeholder [0] have an unknown prefix [1].", entry.getKey(), prefix + "");
+					break;
+			}
+			if (value != null) {
+				statement = statement.replaceAll(entry.getKey(), value);
+			}
+		}
+		return statement;
 	}
 
 	/* 
@@ -104,9 +145,9 @@ public class SQLiteSelect implements DBSelect {
 	 */
 	@Override
 	public DBJoin join(String type, String table, String alias, String one, String two, String equal) {
-		SQLiteJoinNode node = new SQLiteJoinNode(type, table, alias, one, two, equal);
-		this.joins.add(node);
-		return node.join();
+		SQLiteJoin join = new SQLiteJoin(one, two, equal, null);
+		this.joins.add(join);
+		return join.head(type, table, alias);
 	}
 
 	/* 
@@ -172,6 +213,11 @@ public class SQLiteSelect implements DBSelect {
 	 */
 	@Override
 	public boolean hasTable(String table) {
+		if (table.equals(this.table)) return true;
+		Iterator<SQLiteJoin> i = this.joins.iterator();
+		while (i.hasNext()) {
+			if (i.next().table().equals(table)) return true;
+		}
 		return false;
 	}
 
@@ -180,6 +226,12 @@ public class SQLiteSelect implements DBSelect {
 	 */
 	@Override
 	public String tableAlias(String table) {
+		if (table.equals(this.table)) return this.alias;
+		Iterator<SQLiteJoin> i = this.joins.iterator();
+		while (i.hasNext()) {
+			SQLiteJoin join = i.next();
+			if (join.table().equals(table)) return join.alias();
+		}
 		return null;
 	}
 
@@ -190,6 +242,15 @@ public class SQLiteSelect implements DBSelect {
 	public DBSelect from(String table, String alias) {
 		this.table = table;
 		this.alias = alias;
+		return this;
+	}
+
+	/* 
+	 * @see tz.pdb.api.DBSelect#placeholder(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public DBSelect placeholder(String placeholder, String value) {
+		this.placeholders.put(placeholder, value);
 		return this;
 	}
 

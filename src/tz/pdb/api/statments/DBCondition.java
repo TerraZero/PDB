@@ -2,7 +2,7 @@ package tz.pdb.api.statments;
 
 import tz.pdb.api.DBVar;
 import tz.pdb.api.base.DBChain;
-import tz.pdb.api.base.DBExecute;
+import tz.pdb.api.base.DBCreate;
 
 /**
  * 
@@ -14,7 +14,7 @@ import tz.pdb.api.base.DBExecute;
  * @identifier TZ.sql.api
  *
  */
-public interface DBCondition extends DBExecute, DBChain<DBCondition> {
+public interface DBCondition extends DBCreate, DBChain<DBCondition> {
 	
 	public static final String EQUAL = "=";
 	public static final String OP_AND = "AND";

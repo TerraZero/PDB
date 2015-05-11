@@ -10,8 +10,8 @@ package tz.pdb.api.base;
  * @identifier TZ.sql.api
  *
  */
-public interface DBExecute {
+public interface DBCreate {
 
-	public String execute();
+	public String create();
 	
 }

@@ -26,9 +26,10 @@ public class DB {
 		DB.create("db/test.db", "test", "sdfhsdf", new SQLiteDriver());
 		DBSelect select = DB.select();
 		select.from("node", "n").fields("n", "status", "nid").join("inner", "field_data", "fd", "fd.nid", "n.nid").and("n.status", "hallo").or("ok", "Ok");
+		select.join("left", "testtable", "tt", "tt.t", "tn.n");
 		select.where("test", "ok", "=").and("cool", "sdhf", ">").or("test", "shdfj", "<");
 		select.where("sjfdh", "jsdhfjkfh", "NONE");
-		System.out.println(select.execute());
+		System.out.println(select.create());
 		/*
 		DBSelect select = DB.select();
 		select.fields("n", "node", "test AS t").where("n.status", "0").and("n.title", "cool");

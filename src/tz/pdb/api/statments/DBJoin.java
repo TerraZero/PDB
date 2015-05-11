@@ -12,4 +12,14 @@ package tz.pdb.api.statments;
  */
 public interface DBJoin extends DBCondition {
 	
+	public String table();
+	
+	public String alias();
+	
+	public String type();
+	
+	public boolean isHead();
+	
+	public DBJoin head(String type, String table, String alias);
+	
 }
