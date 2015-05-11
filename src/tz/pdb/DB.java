@@ -1,5 +1,9 @@
 package tz.pdb;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import tz.core.logger.Log;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.driver.DBDriver;
 import tz.pdb.drivers.sqlite.SQLiteDriver;
@@ -16,14 +20,29 @@ import tz.pdb.drivers.sqlite.SQLiteDriver;
  */
 public class DB {
 	
-	private static DB db;
+	public static final String DEFAULT_DB = "default";
 	
-	public static void create(String host, String user, String password, DBDriver driver) {
-		DB.db = new DB(host, user, password, driver);
+	private static Map<String, DB> dbs;
+	
+	public static void create(String name, String host, String user, String password, DBDriver driver) {
+		if (DB.dbs == null) {
+			DB.dbs = new HashMap<String, DB>();
+		}
+		DB.dbs.put(name, new DB(host, user, password, driver));
+	}
+	
+	public static DB get(String name) {
+		try {
+			return DB.dbs.get(name);
+		} catch (NullPointerException e) {
+			Log.fatal("DB", "No connection has been established or no connection with the name [0]", name);
+		}
+		return null;
 	}
 
 	public static void main(String[] args) {
-		DB.create("db/test.db", "test", "sdfhsdf", new SQLiteDriver());
+		DB.create(DB.DEFAULT_DB, "db/test.db", null, null, new SQLiteDriver());
+		DB.create("db2", "db/test2.db", null, null, new SQLiteDriver());
 		DBSelect select = DB.select();
 		select.from("node", "n").fields("n", "status", "nid").join("inner", "field_data", "fd", "fd.nid", "n.nid").and("n.status", "hallo").or("ok", "Ok");
 		select.join("left", "testtable", "tt", "tt.t", "tn.n");
@@ -41,7 +60,11 @@ public class DB {
 	}
 	
 	public static DBSelect select() {
-		return DB.db.driver.select();
+		return DB.select(DB.DEFAULT_DB);
+	}
+	
+	public static DBSelect select(String db) {
+		return DB.get(DB.DEFAULT_DB).driver().select();
 	}
 	
 	private String host;
@@ -55,6 +78,22 @@ public class DB {
 		this.pass = pass;
 		this.driver = driver;
 		this.driver.connect(host, user, pass);
+	}
+	
+	public String host() {
+		return this.host;
+	}
+	
+	public String user() {
+		return this.user;
+	}
+	
+	public String pass() {
+		return this.pass;
+	}
+	
+	public DBDriver driver() {
+		return this.driver;
 	}
 	
 }
