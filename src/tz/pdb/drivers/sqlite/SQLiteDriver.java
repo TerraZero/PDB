@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import tz.core.logger.Log;
 import tz.pdb.api.DBSelect;
+import tz.pdb.api.DBTable;
 import tz.pdb.api.driver.DBDriver;
 
 /**
@@ -56,11 +57,23 @@ public class SQLiteDriver implements DBDriver {
 	 */
 	@Override
 	public DBSelect select() {
-		return new SQLiteSelect();
+		DBSelect select = new SQLiteSelect();
+		select.driver(this);
+		return select;
 	}
 	
 	public String ident() {
 		return Log.ident("DB", "Driver", "SQLite");
+	}
+
+	/* 
+	 * @see tz.pdb.api.driver.DBDriver#table()
+	 */
+	@Override
+	public DBTable table() {
+		DBTable table = new SQLiteTable();
+		table.driver(this);
+		return table;
 	}
 	
 }

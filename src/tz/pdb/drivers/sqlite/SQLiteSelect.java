@@ -1,19 +1,21 @@
 package tz.pdb.drivers.sqlite;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import tz.core.logger.Log;
+import tz.pdb.SQLPlaceholder;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBVar;
 import tz.pdb.api.statments.DBCondition;
 import tz.pdb.api.statments.DBJoin;
 import tz.pdb.api.statments.DBOrder;
+import tz.pdb.api.statments.SQLiteStatement;
+import tz.pdb.drivers.sqlite.statements.SQLiteCondition;
+import tz.pdb.drivers.sqlite.statements.SQLiteJoin;
 
 /**
  * 
@@ -25,7 +27,7 @@ import tz.pdb.api.statments.DBOrder;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLiteSelect implements DBSelect {
+public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	
 	public static final String DEFAULT_FIELD_TABLE = "FIELDS";
 	
@@ -86,36 +88,7 @@ public class SQLiteSelect implements DBSelect {
 	 */
 	@Override
 	public String statement() {
-		String statement = this.create();
-		
-		for(Entry<String, String> entry : this.placeholders.entrySet()) {
-			String value = null;
-			char prefix = entry.getKey().charAt(0);
-			
-			switch (prefix) {
-				case '!' :
-					value = entry.getValue();
-					break;
-				case ':' :
-					value = "'" + entry.getValue() + "'";
-					break;
-				case '#' :
-					try {
-						int test = Integer.parseInt(entry.getValue());
-						value = test + "";
-					} catch (NumberFormatException e) {
-						Log.warning(Log.ident("DB", "Driver", "SQLite", "Select"), "Value [0] can not be converted into integer.", entry.getValue());
-					}
-					break;
-				default :
-					Log.warning(Log.ident("DB", "Driver", "SQLite", "Select"), "Placeholder [0] have an unknown prefix [1].", entry.getKey(), prefix + "");
-					break;
-			}
-			if (value != null) {
-				statement = statement.replaceAll(entry.getKey(), value);
-			}
-		}
-		return statement;
+		return SQLPlaceholder.generic(this.create(), this.placeholders, Log.ident("DB", "Driver", "SQLite", "Select"));
 	}
 
 	/* 

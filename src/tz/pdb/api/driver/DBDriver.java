@@ -1,6 +1,7 @@
 package tz.pdb.api.driver;
 
 import tz.pdb.api.DBSelect;
+import tz.pdb.api.DBTable;
 
 /**
  * 
@@ -17,5 +18,7 @@ public interface DBDriver {
 	public boolean connect(String host, String user, String pass);
 
 	public DBSelect select();
+	
+	public DBTable table();
 	
 }

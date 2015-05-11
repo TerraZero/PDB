@@ -5,6 +5,7 @@ import java.util.Map;
 
 import tz.core.logger.Log;
 import tz.pdb.api.DBSelect;
+import tz.pdb.api.DBTable;
 import tz.pdb.api.driver.DBDriver;
 import tz.pdb.drivers.sqlite.SQLiteDriver;
 
@@ -42,13 +43,18 @@ public class DB {
 
 	public static void main(String[] args) {
 		DB.create(DB.DEFAULT_DB, "db/test.db", null, null, new SQLiteDriver());
-		DB.create("db2", "db/test2.db", null, null, new SQLiteDriver());
 		DBSelect select = DB.select();
 		select.from("node", "n").fields("n", "status", "nid").join("inner", "field_data", "fd", "fd.nid", "n.nid").and("n.status", "hallo").or("ok", "Ok");
 		select.join("left", "testtable", "tt", "tt.t", "tn.n");
-		select.where("test", "ok", "=").and("cool", "sdhf", ">").or("test", "shdfj", "<");
+		select.where("test", "ok", "=").and("cool", ":sdhf", ">").or("test", "shdfj", "<");
 		select.where("sjfdh", "jsdhfjkfh", "NONE");
+		select.placeholder(":sdhf", "cool");
 		System.out.println(select.create());
+		
+		DBTable table = DB.table();
+		table.name("TestTable");
+		table.field("id", "INT", "AUTO_INCREMENT").field("name", "VARCHAR", 255, "NOT NULL").key("id", "name");
+		System.out.println(table.statement());
 		/*
 		DBSelect select = DB.select();
 		select.fields("n", "node", "test AS t").where("n.status", "0").and("n.title", "cool");
@@ -64,7 +70,15 @@ public class DB {
 	}
 	
 	public static DBSelect select(String db) {
-		return DB.get(DB.DEFAULT_DB).driver().select();
+		return DB.get(db).driver().select();
+	}
+	
+	public static DBTable table() {
+		return DB.table(DB.DEFAULT_DB);
+	}
+	
+	public static DBTable table(String db) {
+		return DB.get(db).driver().table();
 	}
 	
 	private String host;

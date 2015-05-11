@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite;
+package tz.pdb.drivers.sqlite.statements;
 
 import tz.pdb.api.DBVar;
 import tz.pdb.api.statments.DBCondition;
