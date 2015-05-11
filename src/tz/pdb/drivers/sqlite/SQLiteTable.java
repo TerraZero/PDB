@@ -1,8 +1,10 @@
 package tz.pdb.drivers.sqlite;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import tz.core.logger.Log;
 import tz.pdb.api.DBTable;
 import tz.pdb.api.statments.DBField;
 import tz.pdb.api.statments.SQLiteStatement;
@@ -25,6 +27,15 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	private List<String> keys;
 	
 	public SQLiteTable() {
+		this.init();
+	}
+
+	public SQLiteTable(String table) {
+		this.init();
+		this.name(table);
+	}
+	
+	protected void init() {
 		this.fields = new ArrayList<DBField>();
 		this.keys = new ArrayList<String>();
 	}
@@ -46,7 +57,7 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 		string.append(this.name).append(" (");
 		
 		this.fields.forEach((field) -> {
-			string.append(field.name()).append(" ").append(field.type());
+			string.append(field.name()).append(" ").append(field.type().toUpperCase());
 			if (field.size() > 0) {
 				string.append("(").append(field.size()).append(")");
 			}
@@ -93,7 +104,7 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	 * @see tz.pdb.api.DBTable#key(java.lang.String)
 	 */
 	@Override
-	public DBTable key(String... keys) {
+	public DBTable keys(String... keys) {
 		for (String key : keys) {
 			this.keys.add(key);
 		}
@@ -123,6 +134,22 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	@Override
 	public String name() {
 		return this.name;
+	}
+
+	@Override
+	public int execute() {
+		try {
+			return this.driver().execute().executeUpdate(this.statement());
+		} catch (SQLException e) {
+			Log.fatal(Log.ident("DB", "Driver", "SQLite", "Table"), "Can not execute the table statement.");
+			System.out.println(e);
+			return -1;
+		}
+	}
+
+	@Override
+	public void exe() {
+		this.execute();
 	}
 
 }

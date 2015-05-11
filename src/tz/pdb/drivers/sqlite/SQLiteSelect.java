@@ -1,5 +1,7 @@
 package tz.pdb.drivers.sqlite;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,6 +42,15 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	private List<SQLiteCondition> conditions;
 	
 	public SQLiteSelect() {
+		this.init();
+	}
+
+	public SQLiteSelect(String from, String alias) {
+		this.init();
+		this.from(from, alias);
+	}
+	
+	protected void init() {
 		this.placeholders = new HashMap<String, String>();
 		this.fields = new HashMap<String, List<DBVar>>();
 		this.joins = new ArrayList<SQLiteJoin>();
@@ -225,6 +236,21 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	public DBSelect placeholder(String placeholder, String value) {
 		this.placeholders.put(placeholder, value);
 		return this;
+	}
+
+	@Override
+	public void exe() {
+		this.execute();
+	}
+
+	@Override
+	public ResultSet execute() {
+		try {
+			return this.driver().execute().executeQuery(this.statement());
+		} catch (SQLException e) {
+			Log.fatal(Log.ident("DB", "Driver", "SQLite", "Select"), "Can not execute the select statement.");
+			return null;
+		}
 	}
 
 }

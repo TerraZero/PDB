@@ -48,4 +48,33 @@ public class SQLPlaceholder {
 		return subject;
 	}
 	
+	public static String renderValue(String value, String ident) {
+		return SQLPlaceholder.renderValue(value, ident, false);
+	}
+	
+	public static String renderValue(String value, String ident, boolean strict) {
+		char prefix = value.charAt(0);
+		
+		switch (prefix) {
+			case '!' :
+				return value.substring(1);
+			case ':' :
+				return "'" + value.substring(1) + "'";
+			case '#' :
+				try {
+					int test = Integer.parseInt(value.substring(1));
+					return test + "";
+				} catch (NumberFormatException e) {
+					Log.warning(ident + Log.IDENT_SEPERATOR + "SQLPlaceholder", "Value [0] can not be converted into integer.", value);
+				}
+			default : 
+				if (!strict) {
+					return value;
+				}
+				break;
+		}
+		Log.warning(ident + Log.IDENT_SEPERATOR + "SQLPlaceholder", "Value [0] have an unknown prefix [1].", value, prefix + "");
+		return null;
+	}
+	
 }

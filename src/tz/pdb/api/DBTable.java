@@ -2,7 +2,7 @@ package tz.pdb.api;
 
 import java.util.List;
 
-import tz.pdb.api.base.DBStatement;
+import tz.pdb.api.base.DBUpdate;
 import tz.pdb.api.statments.DBField;
 
 /**
@@ -15,7 +15,7 @@ import tz.pdb.api.statments.DBField;
  * @identifier tz.pdb.api
  *
  */
-public interface DBTable extends DBStatement {
+public interface DBTable extends DBUpdate {
 
 	public DBTable name(String name);
 	
@@ -25,7 +25,7 @@ public interface DBTable extends DBStatement {
 	
 	public DBTable field(String name, String type, int size, String... additionals);
 	
-	public DBTable key(String... keys);
+	public DBTable keys(String... keys);
 	
 	public List<DBField> fields();
 	

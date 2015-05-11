@@ -20,4 +20,6 @@ public interface DBStatement extends DBCreate {
 	
 	public DBStatement driver(DBDriver driver);
 	
+	public void exe();
+	
 }

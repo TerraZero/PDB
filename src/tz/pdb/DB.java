@@ -1,9 +1,12 @@
 package tz.pdb;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
 import tz.pdb.api.driver.DBDriver;
@@ -43,26 +46,20 @@ public class DB {
 
 	public static void main(String[] args) {
 		DB.create(DB.DEFAULT_DB, "db/test.db", null, null, new SQLiteDriver());
-		DBSelect select = DB.select();
-		select.from("node", "n").fields("n", "status", "nid").join("inner", "field_data", "fd", "fd.nid", "n.nid").and("n.status", "hallo").or("ok", "Ok");
-		select.join("left", "testtable", "tt", "tt.t", "tn.n");
-		select.where("test", "ok", "=").and("cool", ":sdhf", ">").or("test", "shdfj", "<");
-		select.where("sjfdh", "jsdhfjkfh", "NONE");
-		select.placeholder(":sdhf", "cool");
-		System.out.println(select.create());
-		
-		DBTable table = DB.table();
-		table.name("TestTable");
-		table.field("id", "INT", "AUTO_INCREMENT").field("name", "VARCHAR", 255, "NOT NULL").key("id", "name");
-		System.out.println(table.statement());
-		/*
-		DBSelect select = DB.select();
-		select.fields("n", "node", "test AS t").where("n.status", "0").and("n.title", "cool");
-		select.join("inner", "table", "t", "t.id", "n.id").and("t.status", "0");
-		select.order("n.id", "ASC").desc("n.num").asc("t.num");
-		select.limit(0, 5);
-		select.execute();
-		//*/
+		DBDriver d = DB.driver();
+		// DBTable table = d.table("T_test").field("id", "INTEGER PRIMARY KEY AUTOINCREMENT").field("created", "int").field("name", "varchar", 255, "NOT NULL");
+		// DBInsert insert = d.insert("T_test").cols("created", "name").row("#5054", ":Paul").row("#478965", ":Nico").row("#4789", ":Georg");
+		DBSelect select = d.select("T_test", "t").fields("t", "id", "name");
+		select.where("t.created", "#test", "<");
+		select.placeholder("#test", "10000");
+		ResultSet result = select.execute();
+		try {
+			while (result.next()) {
+				System.out.println(result.getInt("id") + " : " + result.getString("name"));
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
 	}
 	
 	public static DBSelect select() {
@@ -70,7 +67,7 @@ public class DB {
 	}
 	
 	public static DBSelect select(String db) {
-		return DB.get(db).driver().select();
+		return DB.get(db).dbDriver().select();
 	}
 	
 	public static DBTable table() {
@@ -78,7 +75,23 @@ public class DB {
 	}
 	
 	public static DBTable table(String db) {
-		return DB.get(db).driver().table();
+		return DB.get(db).dbDriver().table();
+	}
+	
+	public static DBInsert insert() {
+		return DB.insert(DB.DEFAULT_DB);
+	}
+	
+	public static DBInsert insert(String db) {
+		return DB.get(db).dbDriver().insert();
+	}
+	
+	public static DBDriver driver() {
+		return DB.driver(DB.DEFAULT_DB);
+	}
+	
+	public static DBDriver driver(String db) {
+		return DB.get(db).dbDriver();
 	}
 	
 	private String host;
@@ -106,7 +119,7 @@ public class DB {
 		return this.pass;
 	}
 	
-	public DBDriver driver() {
+	public DBDriver dbDriver() {
 		return this.driver;
 	}
 	

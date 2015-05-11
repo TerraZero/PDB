@@ -1,5 +1,8 @@
 package tz.pdb.api.driver;
 
+import java.sql.Statement;
+
+import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
 
@@ -19,6 +22,16 @@ public interface DBDriver {
 
 	public DBSelect select();
 	
+	public DBSelect select(String from, String alias);
+	
 	public DBTable table();
+	
+	public DBTable table(String table);
+	
+	public DBInsert insert();
+	
+	public DBInsert insert(String table);
+	
+	public Statement execute();
 	
 }
