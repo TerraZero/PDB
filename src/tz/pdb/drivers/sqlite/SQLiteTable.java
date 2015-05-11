@@ -142,7 +142,6 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
 			Log.fatal(Log.ident("DB", "Driver", "SQLite", "Table"), "Can not execute the table statement.");
-			System.out.println(e);
 			return -1;
 		}
 	}
