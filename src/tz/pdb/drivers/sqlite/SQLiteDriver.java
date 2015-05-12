@@ -10,6 +10,7 @@ import tz.core.logger.Log;
 import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
+import tz.pdb.api.DBUpdate;
 import tz.pdb.api.driver.DBDriver;
 
 /**
@@ -113,6 +114,26 @@ public class SQLiteDriver implements DBDriver {
 			Log.critical(this.ident(), "Can not create a SQLite statement interface");
 			return null;
 		}
+	}
+
+	/* 
+	 * @see tz.pdb.api.driver.DBDriver#update()
+	 */
+	@Override
+	public DBUpdate update() {
+		DBUpdate update = new SQLiteUpdate();
+		update.driver(this);
+		return update;
+	}
+
+	/* 
+	 * @see tz.pdb.api.driver.DBDriver#update(java.lang.String)
+	 */
+	@Override
+	public DBUpdate update(String table) {
+		DBUpdate update = new SQLiteUpdate(table);
+		update.driver(this);
+		return update;
 	}
 	
 }

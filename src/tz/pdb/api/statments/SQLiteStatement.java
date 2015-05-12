@@ -1,5 +1,10 @@
 package tz.pdb.api.statments;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import tz.core.logger.Log;
+import tz.pdb.SQLPlaceholder;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.driver.DBDriver;
 
@@ -16,6 +21,11 @@ import tz.pdb.api.driver.DBDriver;
 public abstract class SQLiteStatement implements DBStatement {
 	
 	private DBDriver driver;
+	private Map<String, String> placeholders;
+	
+	public SQLiteStatement() {
+		this.placeholders = new HashMap<String, String>();
+	}
 
 	/* 
 	 * @see tz.pdb.api.base.DBStatement#driver()
@@ -31,6 +41,27 @@ public abstract class SQLiteStatement implements DBStatement {
 	@Override
 	public DBStatement driver(DBDriver driver) {
 		this.driver = driver;
+		return this;
+	}
+	
+	/* 
+	 * @see tz.pdb.api.base.DBStatement#ident()
+	 */
+	@Override
+	public String ident() {
+		return Log.ident("DB", "Driver", "SQLite", "Statement");
+	}
+	
+	/* 
+	 * @see tz.pdb.api.base.DBStatement#statement()
+	 */
+	@Override
+	public String statement() {
+		return SQLPlaceholder.generic(this.create(), this.placeholders, this.ident());
+	}
+	
+	public DBStatement placeholder(String placeholder, String value) {
+		this.placeholders.put(placeholder, value);
 		return this;
 	}
 

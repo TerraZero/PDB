@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import tz.core.logger.Log;
-import tz.pdb.SQLPlaceholder;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBVar;
 import tz.pdb.api.statments.DBCondition;
@@ -33,8 +32,6 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	
 	public static final String DEFAULT_FIELD_TABLE = "FIELDS";
 	
-	private Map<String, String> placeholders;
-	
 	private String table;
 	private String alias;
 	private Map<String, List<DBVar>> fields;
@@ -51,7 +48,6 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	}
 	
 	protected void init() {
-		this.placeholders = new HashMap<String, String>();
 		this.fields = new HashMap<String, List<DBVar>>();
 		this.joins = new ArrayList<SQLiteJoin>();
 		this.conditions = new ArrayList<SQLiteCondition>();
@@ -95,11 +91,11 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	}
 	
 	/* 
-	 * @see tz.pdb.api.base.DBStatement#statement()
+	 * @see tz.pdb.api.statments.SQLiteStatement#ident()
 	 */
 	@Override
-	public String statement() {
-		return SQLPlaceholder.generic(this.create(), this.placeholders, Log.ident("DB", "Driver", "SQLite", "Select"));
+	public String ident() {
+		return Log.ident("DB", "Driver", "SQLite", "Select");
 	}
 
 	/* 
@@ -226,15 +222,6 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	public DBSelect from(String table, String alias) {
 		this.table = table;
 		this.alias = alias;
-		return this;
-	}
-
-	/* 
-	 * @see tz.pdb.api.DBSelect#placeholder(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public DBSelect placeholder(String placeholder, String value) {
-		this.placeholders.put(placeholder, value);
 		return this;
 	}
 

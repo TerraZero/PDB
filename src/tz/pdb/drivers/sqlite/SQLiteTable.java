@@ -41,11 +41,11 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	}
 
 	/* 
-	 * @see tz.pdb.api.base.DBStatement#statement()
+	 * @see tz.pdb.api.statments.SQLiteStatement#ident()
 	 */
 	@Override
-	public String statement() {
-		return this.create();
+	public String ident() {
+		return Log.ident("DB", "Driver", "SQLite", "Table");
 	}
 
 	/* 
@@ -141,7 +141,7 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			Log.fatal(Log.ident("DB", "Driver", "SQLite", "Table"), "Can not execute the table statement.");
+			Log.fatal(this.ident(), "Can not execute the table statement.");
 			return -1;
 		}
 	}

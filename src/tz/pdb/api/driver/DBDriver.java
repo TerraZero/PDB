@@ -5,6 +5,7 @@ import java.sql.Statement;
 import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
+import tz.pdb.api.DBUpdate;
 
 /**
  * 
@@ -33,5 +34,9 @@ public interface DBDriver {
 	public DBInsert insert(String table);
 	
 	public Statement execute();
+	
+	public DBUpdate update();
+	
+	public DBUpdate update(String table);
 	
 }

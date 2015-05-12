@@ -22,4 +22,8 @@ public interface DBStatement extends DBCreate {
 	
 	public void exe();
 	
+	public DBStatement placeholder(String placeholder, String value);
+	
+	public String ident();
+	
 }

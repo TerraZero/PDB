@@ -2,10 +2,10 @@ package tz.pdb.api;
 
 import java.util.List;
 
-import tz.pdb.api.base.DBUpdate;
+import tz.pdb.api.base.DBUpdating;
 import tz.pdb.api.statments.DBRow;
 
-public interface DBInsert extends DBUpdate {
+public interface DBInsert extends DBUpdating {
 
 	public DBInsert table(String table);
 	

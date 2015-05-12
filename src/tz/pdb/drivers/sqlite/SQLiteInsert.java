@@ -29,9 +29,12 @@ public class SQLiteInsert extends SQLiteStatement implements DBInsert {
 		this.rows = new ArrayList<DBRow>();
 	}
 
+	/* 
+	 * @see tz.pdb.api.statments.SQLiteStatement#ident()
+	 */
 	@Override
-	public String statement() {
-		return this.create();
+	public String ident() {
+		return Log.ident("DB", "Driver", "SQLite", "Insert");
 	}
 
 	@Override
@@ -95,7 +98,7 @@ public class SQLiteInsert extends SQLiteStatement implements DBInsert {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			Log.fatal(Log.ident("DB", "Driver", "SQLite", "Insert"), "Can not execute the insert statement.");
+			Log.fatal(this.ident(), "Can not execute the insert statement.");
 			return -1;
 		}
 	}

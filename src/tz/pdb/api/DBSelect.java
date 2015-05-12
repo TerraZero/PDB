@@ -1,6 +1,6 @@
 package tz.pdb.api;
 
-import tz.pdb.api.base.DBQuery;
+import tz.pdb.api.base.DBQuerieing;
 import tz.pdb.api.statments.DBCondition;
 import tz.pdb.api.statments.DBJoin;
 import tz.pdb.api.statments.DBOrder;
@@ -15,7 +15,7 @@ import tz.pdb.api.statments.DBOrder;
  * @identifier TZ.sql.api
  *
  */
-public interface DBSelect extends DBQuery {
+public interface DBSelect extends DBQuerieing {
 
 	public default DBSelect fields(String table, String... fields) {
 		return this.fields(table, new DBVar(fields));
@@ -64,7 +64,5 @@ public interface DBSelect extends DBQuery {
 	public boolean hasTable(String table);
 	
 	public String tableAlias(String table);
-	
-	public DBSelect placeholder(String placeholder, String value);
 	
 }

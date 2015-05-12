@@ -9,6 +9,7 @@ import tz.core.logger.Log;
 import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
+import tz.pdb.api.DBUpdate;
 import tz.pdb.api.driver.DBDriver;
 import tz.pdb.drivers.sqlite.SQLiteDriver;
 
@@ -49,6 +50,7 @@ public class DB {
 		DBDriver d = DB.driver();
 		// DBTable table = d.table("T_test").field("id", "INTEGER PRIMARY KEY AUTOINCREMENT").field("created", "int").field("name", "varchar", 255, "NOT NULL");
 		// DBInsert insert = d.insert("T_test").cols("created", "name").row("#5054", ":Paul").row("#478965", ":Nico").row("#4789", ":Georg");
+		/*
 		DBSelect select = d.select("T_test", "t").fields("t", "id", "name");
 		select.where("t.created", "#test", "<");
 		select.placeholder("#test", "10000");
@@ -60,6 +62,10 @@ public class DB {
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
+		//*/
+		DBUpdate update = d.update();
+		update.table("T_test").set("name", ":Cool").where("id", "1");
+		System.out.println(update.statement());
 	}
 	
 	public static DBSelect select() {
