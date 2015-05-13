@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBDelete;
 import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
@@ -64,8 +65,12 @@ public class DB {
 		}
 		//*/
 		DBUpdate update = d.update();
-		update.table("T_test").set("name", ":Cool").where("id", "1");
+		update.table("T_test").set("name", "Cool").where("id", "1");
 		System.out.println(update.statement());
+		DBDelete delete = d.delete("T_test");
+		delete.where("id", "#id").or("name", ":name", "<>");
+		delete.placeholder("#id", "2").placeholder(":name", "paul");
+		System.out.println(delete.statement());
 	}
 	
 	public static DBSelect select() {

@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBDelete;
 import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
@@ -134,6 +135,26 @@ public class SQLiteDriver implements DBDriver {
 		DBUpdate update = new SQLiteUpdate(table);
 		update.driver(this);
 		return update;
+	}
+
+	/* 
+	 * @see tz.pdb.api.driver.DBDriver#delete()
+	 */
+	@Override
+	public DBDelete delete() {
+		DBDelete delete = new SQLiteDelete();
+		delete.driver(this);
+		return delete;
+	}
+
+	/* 
+	 * @see tz.pdb.api.driver.DBDriver#delete(java.lang.String)
+	 */
+	@Override
+	public DBDelete delete(String table) {
+		DBDelete delete = new SQLiteDelete(table);
+		delete.driver(this);
+		return delete;
 	}
 	
 }

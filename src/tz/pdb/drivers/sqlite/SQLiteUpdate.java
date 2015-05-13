@@ -1,5 +1,6 @@
 package tz.pdb.drivers.sqlite;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,12 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 	 */
 	@Override
 	public int execute() {
-		return 0;
+		try {
+			return this.driver().execute().executeUpdate(this.statement());
+		} catch (SQLException e) {
+			Log.fatal(this.ident(), "Can not execute the update statement.");
+			return -1;
+		}
 	}
 
 	/* 
@@ -83,7 +89,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 			this.conditions.forEach((condition) -> {
 				con.append(" AND (" + condition.create() + " )");
 			});
-			sb.append(con.substring(4).toString());
+			sb.append(con.substring(5).toString());
 		}
 		return sb.toString();
 	}
@@ -104,14 +110,30 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 		this.table = table;
 		return this;
 	}
+	
+	/* 
+	 * @see tz.pdb.api.DBUpdate#update(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public DBUpdate update(String col, String value) {
+		this.values.put(col, value);
+		return this;
+	}
 
 	/* 
 	 * @see tz.pdb.api.DBUpdate#set(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public DBUpdate set(String col, String value) {
-		this.values.put(col, value);
-		return this;
+		return this.update(col, SQLPlaceholder.maskValue(value));
+	}
+
+	/* 
+	 * @see tz.pdb.api.DBUpdate#set(java.lang.String, int)
+	 */
+	@Override
+	public DBUpdate set(String col, int value) {
+		return this.update(col, SQLPlaceholder.maskValue(value));
 	}
 
 	/* 

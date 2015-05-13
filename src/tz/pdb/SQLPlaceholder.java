@@ -77,4 +77,12 @@ public class SQLPlaceholder {
 		return null;
 	}
 	
+	public static String maskValue(String value) {
+		return ":" + value;
+	}
+	
+	public static String maskValue(int value) {
+		return "#" + value;
+	}
+	
 }

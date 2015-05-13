@@ -6,24 +6,18 @@ import tz.pdb.api.statments.DBCondition;
 /**
  * 
  * @author terrazero
- * @created May 12, 2015
+ * @created May 13, 2015
  * 
- * @file DBUpdate.java
+ * @file DBDelete.java
  * @project PDB
  * @identifier tz.pdb.api
  *
  */
-public interface DBUpdate extends DBUpdating {
+public interface DBDelete extends DBUpdating {
 
 	public String table();
 	
-	public DBUpdate table(String table);
-	
-	public DBUpdate update(String col, String value);
-	
-	public DBUpdate set(String col, String value);
-	
-	public DBUpdate set(String col, int value);
+	public DBDelete table(String table);
 	
 	public default DBCondition where(String one, String two) {
 		return this.where(one, two, DBCondition.EQUAL);

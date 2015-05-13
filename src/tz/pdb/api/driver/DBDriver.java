@@ -2,6 +2,7 @@ package tz.pdb.api.driver;
 
 import java.sql.Statement;
 
+import tz.pdb.api.DBDelete;
 import tz.pdb.api.DBInsert;
 import tz.pdb.api.DBSelect;
 import tz.pdb.api.DBTable;
@@ -38,5 +39,9 @@ public interface DBDriver {
 	public DBUpdate update();
 	
 	public DBUpdate update(String table);
+	
+	public DBDelete delete();
+	
+	public DBDelete delete(String table);
 	
 }
