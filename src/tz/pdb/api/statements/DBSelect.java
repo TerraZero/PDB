@@ -1,9 +1,12 @@
-package tz.pdb.api;
+package tz.pdb.api.statements;
+
+import java.util.Map;
 
 import tz.pdb.api.base.DBQuerieing;
-import tz.pdb.api.statments.DBCondition;
-import tz.pdb.api.statments.DBJoin;
-import tz.pdb.api.statments.DBOrder;
+import tz.pdb.api.fields.DBCondition;
+import tz.pdb.api.fields.DBField;
+import tz.pdb.api.fields.DBJoin;
+import tz.pdb.api.fields.DBOrder;
 
 /**
  * 
@@ -16,14 +19,33 @@ import tz.pdb.api.statments.DBOrder;
  *
  */
 public interface DBSelect extends DBQuerieing {
+	
+	public DBSelect selectAll();
+	
+	public DBSelect selectAll(String function);
+	
+	public boolean isSelectAll();
+	
+	public String selectAllFunction();
 
 	public default DBSelect fields(String table, String... fields) {
-		return this.fields(table, new DBVar(fields));
+		for (String field : fields) {
+			this.field(table, field, field, null);
+		}
+		return this;
 	}
 	
-	public DBSelect fields(String table, DBVar fields);
+	public default DBSelect field(String table, String field) {
+		return this.field(table, field, field, null);
+	}
 	
-	public DBSelect fields(DBVar var);
+	public default DBSelect field(String table, String field, String alias) {
+		return this.field(table, field, alias, null);
+	}
+	
+	public DBSelect field(String table, String field, String alias, String function);
+	
+	public DBSelect fields(DBField... fields);
 	
 	public DBSelect from(String table, String alias);
 	
@@ -33,15 +55,11 @@ public interface DBSelect extends DBQuerieing {
 	
 	public DBJoin join(String type, String table, String alias, String one, String two, String equal);
 	
-	public DBJoin join(DBVar var);
-	
 	public default DBCondition where(String one, String two) {
 		return this.where(one, two, DBCondition.EQUAL);
 	}
 	
 	public DBCondition where(String one, String two, String equal);
-	
-	public DBCondition where(DBVar var);
 	
 	public default DBOrder order(String field) {
 		return this.order(field, "ASC");
@@ -49,20 +67,20 @@ public interface DBSelect extends DBQuerieing {
 	
 	public DBOrder order(String field, String direction);
 	
-	public DBOrder order(DBVar var);
-	
 	public default DBSelect limit(int length) {
 		return this.limit(0, length);
 	}
 	
 	public DBSelect limit(int offset, int length);
 	
-	public DBSelect limit(DBVar var);
-	
 	
 	
 	public boolean hasTable(String table);
 	
 	public String tableAlias(String table);
+	
+	public Map<String, DBField> fields();
+	
+	public boolean hasField(String alias);
 	
 }

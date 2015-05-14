@@ -1,7 +1,6 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.sqlite.fields;
 
-import tz.pdb.api.DBVar;
-import tz.pdb.api.statments.DBCondition;
+import tz.pdb.api.fields.DBCondition;
 
 /**
  * 
@@ -32,14 +31,14 @@ public class SQLiteCondition implements DBCondition {
 	 * @see tz.pdb.api.base.DBExecute#execute()
 	 */
 	@Override
-	public String create() {
+	public String built() {
 		String s = "";
 		if (this.operation != null) {
 			s += " " + this.operation;
 		}
 		s += " " + this.one + " " + this.equal + " " + this.two;
 		if (this.next != null) {
-			s += this.next.create();
+			s += this.next.built();
 		}
 		return s;
 	}
@@ -76,14 +75,6 @@ public class SQLiteCondition implements DBCondition {
 	public DBCondition or(String one, String two, String equal) {
 		this.next = new SQLiteCondition(one, two, equal, DBCondition.OP_OR);
 		return this.next();
-	}
-
-	/* 
-	 * @see tz.pdb.api.statments.DBCondition#and(tz.pdb.api.DBVar)
-	 */
-	@Override
-	public DBCondition and(DBVar var) {
-		return null;
 	}
 
 }

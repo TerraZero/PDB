@@ -1,7 +1,7 @@
-package tz.pdb.api;
+package tz.pdb.api.statements;
 
 import tz.pdb.api.base.DBUpdating;
-import tz.pdb.api.statments.DBCondition;
+import tz.pdb.api.fields.DBCondition;
 
 /**
  * 

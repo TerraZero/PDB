@@ -1,14 +1,14 @@
-package tz.pdb.drivers.sqlite;
+package tz.pdb.drivers.sqlite.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBInsert;
-import tz.pdb.api.statments.DBRow;
-import tz.pdb.api.statments.SQLiteStatement;
-import tz.pdb.drivers.sqlite.statements.SQLiteRow;
+import tz.pdb.api.fields.DBRow;
+import tz.pdb.api.statements.DBInsert;
+import tz.pdb.drivers.sqlite.fields.SQLiteRow;
+import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 
 public class SQLiteInsert extends SQLiteStatement implements DBInsert {
 	
@@ -38,7 +38,7 @@ public class SQLiteInsert extends SQLiteStatement implements DBInsert {
 	}
 
 	@Override
-	public String create() {
+	public String built() {
 		StringBuilder string = new StringBuilder("INSERT INTO ");
 		string.append(this.table).append(" ");
 		if (this.cols != null) {
@@ -51,7 +51,7 @@ public class SQLiteInsert extends SQLiteStatement implements DBInsert {
 		}
 		string.append("VALUES ");
 		this.rows.forEach((row) -> {
-			string.append(row.create()).append(", ");
+			string.append(row.built()).append(", ");
 		});
 		string.setLength(string.length() - 2);
 		return string.toString() + ";";

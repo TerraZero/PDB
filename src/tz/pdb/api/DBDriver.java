@@ -1,12 +1,15 @@
-package tz.pdb.api.driver;
+package tz.pdb.api;
 
 import java.sql.Statement;
 
-import tz.pdb.api.DBDelete;
-import tz.pdb.api.DBInsert;
-import tz.pdb.api.DBSelect;
-import tz.pdb.api.DBTable;
-import tz.pdb.api.DBUpdate;
+import tz.pdb.api.statements.DBCreate;
+import tz.pdb.api.statements.DBDelete;
+import tz.pdb.api.statements.DBInfo;
+import tz.pdb.api.statements.DBInsert;
+import tz.pdb.api.statements.DBOperation;
+import tz.pdb.api.statements.DBQuery;
+import tz.pdb.api.statements.DBSelect;
+import tz.pdb.api.statements.DBUpdate;
 
 /**
  * 
@@ -26,9 +29,9 @@ public interface DBDriver {
 	
 	public DBSelect select(String from, String alias);
 	
-	public DBTable table();
+	public DBCreate create();
 	
-	public DBTable table(String table);
+	public DBCreate create(String table);
 	
 	public DBInsert insert();
 	
@@ -43,5 +46,13 @@ public interface DBDriver {
 	public DBDelete delete();
 	
 	public DBDelete delete(String table);
+	
+	public DBOperation operation();
+	
+	public DBQuery query();
+	
+	public DBQuery query(String query);
+	
+	public DBInfo info();
 	
 }

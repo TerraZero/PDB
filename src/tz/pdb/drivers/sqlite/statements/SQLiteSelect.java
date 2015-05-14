@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite;
+package tz.pdb.drivers.sqlite.statements;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,14 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBSelect;
-import tz.pdb.api.DBVar;
-import tz.pdb.api.statments.DBCondition;
-import tz.pdb.api.statments.DBJoin;
-import tz.pdb.api.statments.DBOrder;
-import tz.pdb.api.statments.SQLiteStatement;
-import tz.pdb.drivers.sqlite.statements.SQLiteCondition;
-import tz.pdb.drivers.sqlite.statements.SQLiteJoin;
+import tz.pdb.api.fields.DBCondition;
+import tz.pdb.api.fields.DBField;
+import tz.pdb.api.fields.DBJoin;
+import tz.pdb.api.fields.DBOrder;
+import tz.pdb.api.statements.DBSelect;
+import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
+import tz.pdb.drivers.sqlite.fields.SQLiteField;
+import tz.pdb.drivers.sqlite.fields.SQLiteJoin;
+import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 
 /**
  * 
@@ -34,8 +35,10 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	
 	private String table;
 	private String alias;
-	private Map<String, List<DBVar>> fields;
 	private List<SQLiteJoin> joins;
+	private Map<String, DBField> fields;
+	private boolean selectAll;
+	private String selectAllFunction;
 	private List<SQLiteCondition> conditions;
 	
 	public SQLiteSelect() {
@@ -48,8 +51,8 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	}
 	
 	protected void init() {
-		this.fields = new HashMap<String, List<DBVar>>();
 		this.joins = new ArrayList<SQLiteJoin>();
+		this.fields = new HashMap<String, DBField>();
 		this.conditions = new ArrayList<SQLiteCondition>();
 	}
 
@@ -57,24 +60,28 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	 * @see tz.pdb.api.base.DBExecute#execute()
 	 */
 	@Override
-	public String create() {
+	public String built() {
 		String s = "SELECT ";
 		
 		StringBuilder string = new StringBuilder();
-		this.fields.forEach((alias, list) -> {
-			list.forEach((var) -> {
-				for (int i = 0; i < var.value().length; i++) {
-					string.append(", " + alias + "." + var.value()[i]); 
-				}
-			}); 
-		});
-		s += string.substring(2).toString();
+		if (this.selectAll) {
+			if (this.selectAllFunction == null) {
+				s += this.selectAllFunction.toUpperCase() + "(*)"; 
+			} else {
+				s += "*";
+			}
+		} else {
+			this.fields.forEach((alias, field) -> {
+				string.append(", ").append(field.built());
+			});
+			s += string.substring(2);
+		}
 		
 		s += " FROM " + this.table + " AS " + this.alias;
 		
 		string.setLength(0);
 		this.joins.forEach((join) -> {
-			string.append(" " + join.create());
+			string.append(" " + join.built());
 		});
 		s += string.toString();
 		
@@ -82,7 +89,7 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 			s += " WHERE";
 			string.setLength(0);
 			this.conditions.forEach((condition) -> {
-				string.append(" AND (" + condition.create() + " )");
+				string.append(" AND (" + condition.built() + " )");
 			});
 			s += string.substring(4).toString();
 		}
@@ -99,28 +106,6 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	}
 
 	/* 
-	 * @see tz.pdb.api.DBSelect#fields(java.lang.String, tz.pdb.api.DBVar)
-	 */
-	@Override
-	public DBSelect fields(String table, DBVar fields) {
-		List<DBVar> list = this.fields.get(table);
-		if (list == null) {
-			list = new ArrayList<DBVar>();
-			this.fields.put(table, list);
-		}
-		list.add(fields);
-		return this;
-	}
-
-	/* 
-	 * @see tz.pdb.api.DBSelect#fields(tz.pdb.api.DBVar)
-	 */
-	@Override
-	public DBSelect fields(DBVar var) {
-		return this.fields(SQLiteSelect.DEFAULT_FIELD_TABLE, var);
-	}
-
-	/* 
 	 * @see tz.pdb.api.DBSelect#join(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -128,14 +113,6 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 		SQLiteJoin join = new SQLiteJoin(one, two, equal, null);
 		this.joins.add(join);
 		return join.head(type, table, alias);
-	}
-
-	/* 
-	 * @see tz.pdb.api.DBSelect#join(tz.pdb.api.DBVar)
-	 */
-	@Override
-	public DBJoin join(DBVar var) {
-		return null;
 	}
 	
 	/* 
@@ -149,14 +126,6 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	}
 
 	/* 
-	 * @see tz.pdb.api.DBSelect#where(tz.pdb.api.DBVar)
-	 */
-	@Override
-	public DBCondition where(DBVar var) {
-		return null;
-	}
-
-	/* 
 	 * @see tz.pdb.api.DBSelect#order(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -165,26 +134,10 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	}
 
 	/* 
-	 * @see tz.pdb.api.DBSelect#order(tz.pdb.api.DBVar)
-	 */
-	@Override
-	public DBOrder order(DBVar var) {
-		return null;
-	}
-
-	/* 
 	 * @see tz.pdb.api.DBSelect#limit(int, int)
 	 */
 	@Override
 	public DBSelect limit(int offset, int length) {
-		return null;
-	}
-
-	/* 
-	 * @see tz.pdb.api.DBSelect#limit(tz.pdb.api.DBVar)
-	 */
-	@Override
-	public DBSelect limit(DBVar var) {
 		return null;
 	}
 
@@ -235,9 +188,70 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 		try {
 			return this.driver().execute().executeQuery(this.statement());
 		} catch (SQLException e) {
-			Log.fatal(Log.ident("DB", "Driver", "SQLite", "Select"), "Can not execute the select statement.");
+			System.out.println(e);
+			Log.fatal(this.ident(), "Can not execute the select statement.");
 			return null;
 		}
+	}
+
+	@Override
+	public DBSelect field(String table, String field, String alias, String function) {
+		if (this.selectAll) {
+			Log.warning(this.ident(), "Add a field has no use because all are selected. Field [0] will be add but ignored by building.", table + "." + field);
+		}
+		SQLiteField addfield = new SQLiteField(table, field, alias, function);
+		DBField f = null;
+		if ((f = this.fields.put(alias, addfield)) != null) {
+			Log.warning(this.ident(), "Duplicate field alias [0] for field [1] and field [2]", addfield.alias(), f.table() + "." + f.field(), addfield.table() + "." + addfield.field());
+		}
+		return this;
+	}
+
+	@Override
+	public DBSelect fields(DBField... fields) {
+		if (this.selectAll) {
+			Log.warning(this.ident(), "Add a field has no use because all are selected. [0] fields will be add but ignored by building.", fields.length + "");
+		}
+		DBField f = null;
+		for (DBField field : fields) {
+			if ((f = this.fields.put(field.alias(), field)) != null) {
+				Log.warning(this.ident(), "Duplicate field alias [0] for field [1] and field [2]", field.alias(), f.table() + "." + f.field(), field.table() + "." + field.field());
+			}
+		}
+		return this;
+	}
+
+	@Override
+	public Map<String, DBField> fields() {
+		return this.fields;
+	}
+
+	@Override
+	public boolean hasField(String alias) {
+		return this.fields.containsKey(alias);
+	}
+
+	@Override
+	public DBSelect selectAll() {
+		this.selectAll = true;
+		return this;
+	}
+
+	@Override
+	public boolean isSelectAll() {
+		return this.selectAll;
+	}
+
+	@Override
+	public DBSelect selectAll(String function) {
+		this.selectAll = true;
+		this.selectAllFunction = function;
+		return this;
+	}
+
+	@Override
+	public String selectAllFunction() {
+		return this.selectAllFunction;
 	}
 
 }

@@ -1,14 +1,14 @@
-package tz.pdb.drivers.sqlite;
+package tz.pdb.drivers.sqlite.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBTable;
-import tz.pdb.api.statments.DBField;
-import tz.pdb.api.statments.SQLiteStatement;
-import tz.pdb.drivers.sqlite.statements.SQLiteField;
+import tz.pdb.api.fields.DBDefineField;
+import tz.pdb.api.statements.DBCreate;
+import tz.pdb.drivers.sqlite.fields.SQLiteDefineField;
+import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 
 /**
  * 
@@ -20,23 +20,23 @@ import tz.pdb.drivers.sqlite.statements.SQLiteField;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLiteTable extends SQLiteStatement implements DBTable {
+public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 	
 	private String name;
-	private List<DBField> fields;
+	private List<DBDefineField> fields;
 	private List<String> keys;
 	
-	public SQLiteTable() {
+	public SQLiteCreate() {
 		this.init();
 	}
 
-	public SQLiteTable(String table) {
+	public SQLiteCreate(String table) {
 		this.init();
 		this.name(table);
 	}
 	
 	protected void init() {
-		this.fields = new ArrayList<DBField>();
+		this.fields = new ArrayList<DBDefineField>();
 		this.keys = new ArrayList<String>();
 	}
 
@@ -52,7 +52,7 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	 * @see tz.pdb.api.base.DBCreate#create()
 	 */
 	@Override
-	public String create() {
+	public String built() {
 		StringBuilder string = new StringBuilder("CREATE TABLE ");
 		string.append(this.name).append(" (");
 		
@@ -86,8 +86,8 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	 * @see tz.pdb.api.DBTable#field(java.lang.String, java.lang.String, java.lang.String[])
 	 */
 	@Override
-	public DBTable field(String name, String type, String... additionals) {
-		this.fields.add(new SQLiteField(name, type, additionals));
+	public DBCreate field(String name, String type, String... additionals) {
+		this.fields.add(new SQLiteDefineField(name, type, additionals));
 		return this;
 	}
 	
@@ -95,8 +95,8 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	 * @see tz.pdb.api.DBTable#field(java.lang.String, java.lang.String, int, java.lang.String[])
 	 */
 	@Override
-	public DBTable field(String name, String type, int size, String... additionals) {
-		this.fields.add(new SQLiteField(name, type, size, additionals));
+	public DBCreate field(String name, String type, int size, String... additionals) {
+		this.fields.add(new SQLiteDefineField(name, type, size, additionals));
 		return this;
 	}
 
@@ -104,7 +104,7 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	 * @see tz.pdb.api.DBTable#key(java.lang.String)
 	 */
 	@Override
-	public DBTable keys(String... keys) {
+	public DBCreate keys(String... keys) {
 		for (String key : keys) {
 			this.keys.add(key);
 		}
@@ -115,7 +115,7 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	 * @see tz.pdb.api.DBTable#fields()
 	 */
 	@Override
-	public List<DBField> fields() {
+	public List<DBDefineField> fields() {
 		return this.fields;
 	}
 
@@ -123,7 +123,7 @@ public class SQLiteTable extends SQLiteStatement implements DBTable {
 	 * @see tz.pdb.api.DBTable#name(java.lang.String)
 	 */
 	@Override
-	public DBTable name(String name) {
+	public DBCreate name(String name) {
 		this.name = name;
 		return this;
 	}

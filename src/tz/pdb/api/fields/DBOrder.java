@@ -1,8 +1,7 @@
-package tz.pdb.api.statments;
+package tz.pdb.api.fields;
 
-import tz.pdb.api.DBVar;
 import tz.pdb.api.base.DBChain;
-import tz.pdb.api.base.DBCreate;
+import tz.pdb.api.base.DBBuilt;
 
 /**
  * 
@@ -14,14 +13,12 @@ import tz.pdb.api.base.DBCreate;
  * @identifier TZ.sql.api
  *
  */
-public interface DBOrder extends DBCreate, DBChain<DBOrder> {
+public interface DBOrder extends DBBuilt, DBChain<DBOrder> {
 
 	public DBOrder asc(String field);
 	
 	public DBOrder desc(String field);
 	
 	public DBOrder order(String field, String direction);
-	
-	public DBOrder order(DBVar var);
 	
 }

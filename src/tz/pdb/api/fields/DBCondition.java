@@ -1,8 +1,7 @@
-package tz.pdb.api.statments;
+package tz.pdb.api.fields;
 
-import tz.pdb.api.DBVar;
 import tz.pdb.api.base.DBChain;
-import tz.pdb.api.base.DBCreate;
+import tz.pdb.api.base.DBBuilt;
 
 /**
  * 
@@ -14,7 +13,7 @@ import tz.pdb.api.base.DBCreate;
  * @identifier TZ.sql.api
  *
  */
-public interface DBCondition extends DBCreate, DBChain<DBCondition> {
+public interface DBCondition extends DBBuilt, DBChain<DBCondition> {
 	
 	public static final String EQUAL = "=";
 	public static final String OP_AND = "AND";
@@ -31,7 +30,5 @@ public interface DBCondition extends DBCreate, DBChain<DBCondition> {
 	}
 	
 	public DBCondition or(String one, String two, String equal);
-	
-	public DBCondition and(DBVar var);
 	
 }

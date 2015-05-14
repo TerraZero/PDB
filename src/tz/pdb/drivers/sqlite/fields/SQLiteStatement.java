@@ -1,12 +1,12 @@
-package tz.pdb.api.statments;
+package tz.pdb.drivers.sqlite.fields;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import tz.core.logger.Log;
 import tz.pdb.SQLPlaceholder;
+import tz.pdb.api.DBDriver;
 import tz.pdb.api.base.DBStatement;
-import tz.pdb.api.driver.DBDriver;
 
 /**
  * 
@@ -57,7 +57,7 @@ public abstract class SQLiteStatement implements DBStatement {
 	 */
 	@Override
 	public String statement() {
-		return SQLPlaceholder.generic(this.create(), this.placeholders, this.ident());
+		return SQLPlaceholder.generic(this.built(), this.placeholders, this.ident());
 	}
 	
 	public DBStatement placeholder(String placeholder, String value) {

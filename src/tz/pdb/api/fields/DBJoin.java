@@ -1,4 +1,6 @@
-package tz.pdb.api.statments;
+package tz.pdb.api.fields;
+
+import tz.pdb.api.base.DBBuilt;
 
 /**
  * 
@@ -10,7 +12,7 @@ package tz.pdb.api.statments;
  * @identifier TZ.sql.api
  *
  */
-public interface DBJoin extends DBCondition {
+public interface DBJoin extends DBCondition, DBBuilt {
 	
 	public String table();
 	

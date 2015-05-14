@@ -7,12 +7,23 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBDelete;
-import tz.pdb.api.DBInsert;
-import tz.pdb.api.DBSelect;
-import tz.pdb.api.DBTable;
-import tz.pdb.api.DBUpdate;
-import tz.pdb.api.driver.DBDriver;
+import tz.pdb.api.DBDriver;
+import tz.pdb.api.statements.DBCreate;
+import tz.pdb.api.statements.DBDelete;
+import tz.pdb.api.statements.DBInfo;
+import tz.pdb.api.statements.DBInsert;
+import tz.pdb.api.statements.DBOperation;
+import tz.pdb.api.statements.DBQuery;
+import tz.pdb.api.statements.DBSelect;
+import tz.pdb.api.statements.DBUpdate;
+import tz.pdb.drivers.sqlite.statements.SQLiteDelete;
+import tz.pdb.drivers.sqlite.statements.SQLiteInfo;
+import tz.pdb.drivers.sqlite.statements.SQLiteInsert;
+import tz.pdb.drivers.sqlite.statements.SQLiteOperation;
+import tz.pdb.drivers.sqlite.statements.SQLiteQuery;
+import tz.pdb.drivers.sqlite.statements.SQLiteSelect;
+import tz.pdb.drivers.sqlite.statements.SQLiteCreate;
+import tz.pdb.drivers.sqlite.statements.SQLiteUpdate;
 
 /**
  * 
@@ -44,14 +55,15 @@ public class SQLiteDriver implements DBDriver {
 		try {
 			if (prop == null) {
 				this.connection = DriverManager.getConnection("jdbc:sqlite:" + host);
+				Log.success(this.ident(), "Connect to database via host [0] successfully", host);
 			} else {
 				this.connection = DriverManager.getConnection("jdbc:sqlite:" + host, prop);
+				Log.success(this.ident(), "Connect to database via host [0] and user [1] successfully", host, user);
 			}
 		} catch (Exception e) {
 			Log.critical(this.ident(), "Can not connect to host [0] with the user [1]", host, user);
 			return false;
 		}
-		Log.success(this.ident(), "Connect to database via host [0] and user [1] successfully", host, user);
 		return true;
 	}
 
@@ -73,8 +85,8 @@ public class SQLiteDriver implements DBDriver {
 	 * @see tz.pdb.api.driver.DBDriver#table()
 	 */
 	@Override
-	public DBTable table() {
-		DBTable table = new SQLiteTable();
+	public DBCreate create() {
+		DBCreate table = new SQLiteCreate();
 		table.driver(this);
 		return table;
 	}
@@ -87,8 +99,8 @@ public class SQLiteDriver implements DBDriver {
 	}
 
 	@Override
-	public DBTable table(String table) {
-		DBTable create = new SQLiteTable(table);
+	public DBCreate create(String table) {
+		DBCreate create = new SQLiteCreate(table);
 		create.driver(this);
 		return create;
 	}
@@ -155,6 +167,34 @@ public class SQLiteDriver implements DBDriver {
 		DBDelete delete = new SQLiteDelete(table);
 		delete.driver(this);
 		return delete;
+	}
+
+	@Override
+	public DBOperation operation() {
+		DBOperation operation = new SQLiteOperation();
+		operation.driver(this);
+		return operation;
+	}
+
+	@Override
+	public DBQuery query() {
+		DBQuery query = new SQLiteQuery();
+		query.driver(this);
+		return query;
+	}
+
+	@Override
+	public DBQuery query(String query) {
+		DBQuery dbquery = new SQLiteQuery(query);
+		dbquery.driver(this);
+		return dbquery;
+	}
+
+	@Override
+	public DBInfo info() {
+		DBInfo info = new SQLiteInfo();
+		info.driver(this);
+		return info;
 	}
 	
 }

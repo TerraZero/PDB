@@ -1,9 +1,9 @@
-package tz.pdb.api;
+package tz.pdb.api.statements;
 
 import java.util.List;
 
 import tz.pdb.api.base.DBUpdating;
-import tz.pdb.api.statments.DBRow;
+import tz.pdb.api.fields.DBRow;
 
 public interface DBInsert extends DBUpdating {
 

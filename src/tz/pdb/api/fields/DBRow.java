@@ -1,8 +1,8 @@
-package tz.pdb.api.statments;
+package tz.pdb.api.fields;
 
-import tz.pdb.api.base.DBCreate;
+import tz.pdb.api.base.DBBuilt;
 
-public interface DBRow extends DBCreate {
+public interface DBRow extends DBBuilt {
 	
 	public DBRow setHead(String[] cols);
 

@@ -1,6 +1,6 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.sqlite.fields;
 
-import tz.pdb.api.statments.DBJoin;
+import tz.pdb.api.fields.DBJoin;
 
 /**
  * 
@@ -50,13 +50,13 @@ public class SQLiteJoin extends SQLiteCondition implements DBJoin {
 	 * @see tz.pdb.api.base.DBExecute#execute()
 	 */
 	@Override
-	public String create() {
+	public String built() {
 		String s = "";
 		if (this.type != null) {
 			s += this.type.toUpperCase() + " JOIN";
 			s += " " + this.table + " AS " + this.alias + " ON";
 		}
-		s += super.create();
+		s += super.built();
 		return s;
 	}
 

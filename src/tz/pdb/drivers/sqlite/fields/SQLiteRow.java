@@ -1,8 +1,8 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.sqlite.fields;
 
 import tz.core.logger.Log;
 import tz.pdb.SQLPlaceholder;
-import tz.pdb.api.statments.DBRow;
+import tz.pdb.api.fields.DBRow;
 
 public class SQLiteRow implements DBRow {
 	
@@ -14,7 +14,7 @@ public class SQLiteRow implements DBRow {
 	}
 
 	@Override
-	public String create() {
+	public String built() {
 		String string = "(";
 		for (String value : this.values) {
 			string += SQLPlaceholder.renderValue(value, Log.ident("DB", "Driver", "SQLite", "Row")) + ", ";

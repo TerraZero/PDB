@@ -1,14 +1,14 @@
-package tz.pdb.drivers.sqlite;
+package tz.pdb.drivers.sqlite.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBDelete;
-import tz.pdb.api.statments.DBCondition;
-import tz.pdb.api.statments.SQLiteStatement;
-import tz.pdb.drivers.sqlite.statements.SQLiteCondition;
+import tz.pdb.api.fields.DBCondition;
+import tz.pdb.api.statements.DBDelete;
+import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
+import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 
 /**
  * 
@@ -50,14 +50,14 @@ public class SQLiteDelete extends SQLiteStatement implements DBDelete {
 	 * @see tz.pdb.api.base.DBCreate#create()
 	 */
 	@Override
-	public String create() {
+	public String built() {
 		String s = "DELETE ";
 		s += this.table;
 		if (this.conditions.size() > 0) {
 			s += " WHERE ";
 			StringBuilder con = new StringBuilder();
 			this.conditions.forEach((condition) -> {
-				con.append(" AND (" + condition.create() + " )");
+				con.append(" AND (" + condition.built() + " )");
 			});
 			s += con.substring(5).toString();
 		}

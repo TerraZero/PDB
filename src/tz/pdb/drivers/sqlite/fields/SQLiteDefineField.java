@@ -1,6 +1,6 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.sqlite.fields;
 
-import tz.pdb.api.statments.DBField;
+import tz.pdb.api.fields.DBDefineField;
 
 /**
  * 
@@ -12,20 +12,20 @@ import tz.pdb.api.statments.DBField;
  * @identifier tz.pdb.drivers.sqlite.statements
  *
  */
-public class SQLiteField implements DBField {
+public class SQLiteDefineField implements DBDefineField {
 	
 	private String name;
 	private String type;
 	private int size;
 	private String[] additionals;
 	
-	public SQLiteField(String name, String type, String[] additionals) {
+	public SQLiteDefineField(String name, String type, String[] additionals) {
 		this.name = name;
 		this.type = type;
 		this.additionals = additionals;
 	}
 	
-	public SQLiteField(String name, String type, int size, String[] additionals) {
+	public SQLiteDefineField(String name, String type, int size, String[] additionals) {
 		this.name = name;
 		this.type = type;
 		this.size = size;
@@ -62,6 +62,12 @@ public class SQLiteField implements DBField {
 	@Override
 	public int size() {
 		return this.size;
+	}
+
+	@Override
+	public String built() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

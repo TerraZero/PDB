@@ -1,17 +1,18 @@
 package tz.pdb;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBDelete;
-import tz.pdb.api.DBInsert;
-import tz.pdb.api.DBSelect;
-import tz.pdb.api.DBTable;
-import tz.pdb.api.DBUpdate;
-import tz.pdb.api.driver.DBDriver;
+import tz.pdb.api.DBDriver;
+import tz.pdb.api.statements.DBCreate;
+import tz.pdb.api.statements.DBDelete;
+import tz.pdb.api.statements.DBInfo;
+import tz.pdb.api.statements.DBInsert;
+import tz.pdb.api.statements.DBOperation;
+import tz.pdb.api.statements.DBQuery;
+import tz.pdb.api.statements.DBSelect;
+import tz.pdb.api.statements.DBUpdate;
 import tz.pdb.drivers.sqlite.SQLiteDriver;
 
 /**
@@ -41,7 +42,7 @@ public class DB {
 		try {
 			return DB.dbs.get(name);
 		} catch (NullPointerException e) {
-			Log.fatal("DB", "No connection has been established or no connection with the name [0]", name);
+			Log.fatal("DB", "No connection has been established");
 		}
 		return null;
 	}
@@ -49,28 +50,7 @@ public class DB {
 	public static void main(String[] args) {
 		DB.create(DB.DEFAULT_DB, "db/test.db", null, null, new SQLiteDriver());
 		DBDriver d = DB.driver();
-		// DBTable table = d.table("T_test").field("id", "INTEGER PRIMARY KEY AUTOINCREMENT").field("created", "int").field("name", "varchar", 255, "NOT NULL");
-		// DBInsert insert = d.insert("T_test").cols("created", "name").row("#5054", ":Paul").row("#478965", ":Nico").row("#4789", ":Georg");
-		/*
-		DBSelect select = d.select("T_test", "t").fields("t", "id", "name");
-		select.where("t.created", "#test", "<");
-		select.placeholder("#test", "10000");
-		ResultSet result = select.execute();
-		try {
-			while (result.next()) {
-				System.out.println(result.getInt("id") + " : " + result.getString("name"));
-			}
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-		//*/
-		DBUpdate update = d.update();
-		update.table("T_test").set("name", "Cool").where("id", "1");
-		System.out.println(update.statement());
-		DBDelete delete = d.delete("T_test");
-		delete.where("id", "#id").or("name", ":name", "<>");
-		delete.placeholder("#id", "2").placeholder(":name", "paul");
-		System.out.println(delete.statement());
+		
 	}
 	
 	public static DBSelect select() {
@@ -81,12 +61,12 @@ public class DB {
 		return DB.get(db).dbDriver().select();
 	}
 	
-	public static DBTable table() {
+	public static DBCreate table() {
 		return DB.table(DB.DEFAULT_DB);
 	}
 	
-	public static DBTable table(String db) {
-		return DB.get(db).dbDriver().table();
+	public static DBCreate table(String db) {
+		return DB.get(db).dbDriver().create();
 	}
 	
 	public static DBInsert insert() {
@@ -97,12 +77,57 @@ public class DB {
 		return DB.get(db).dbDriver().insert();
 	}
 	
+	public static DBUpdate update() {
+		return DB.update(DB.DEFAULT_DB);
+	}
+	
+	public static DBUpdate update(String db) {
+		return DB.get(db).dbDriver().update();
+	}
+	
+	public static DBDelete delete() {
+		return DB.delete(DB.DEFAULT_DB);
+	}
+	
+	public static DBDelete delete(String db) {
+		return DB.get(db).dbDriver().delete();
+	}
+	
+	public static DBOperation operation() {
+		return DB.operation(DB.DEFAULT_DB);
+	}
+
+	public static DBOperation operation(String db) {
+		return DB.get(db).dbDriver().operation();
+	}
+	
+	public static DBInfo info() {
+		return DB.info(DB.DEFAULT_DB);
+	}
+	
+	public static DBInfo info(String db) {
+		return DB.get(db).dbDriver().info();
+	}
+	
+	public static DBQuery query() {
+		return DB.query(DB.DEFAULT_DB);
+	}
+	
+	public static DBQuery query(String db) {
+		return DB.get(db).dbDriver().query();
+	}
+	
 	public static DBDriver driver() {
 		return DB.driver(DB.DEFAULT_DB);
 	}
 	
 	public static DBDriver driver(String db) {
-		return DB.get(db).dbDriver();
+		try {
+			return DB.get(db).dbDriver();
+		} catch (NullPointerException e) {
+			Log.fatal("DB", "No connection with the name [0] has been established", db);
+		}
+		return null;
 	}
 	
 	private String host;

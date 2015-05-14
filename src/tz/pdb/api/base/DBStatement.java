@@ -1,6 +1,6 @@
 package tz.pdb.api.base;
 
-import tz.pdb.api.driver.DBDriver;
+import tz.pdb.api.DBDriver;
 
 /**
  * 
@@ -12,7 +12,7 @@ import tz.pdb.api.driver.DBDriver;
  * @identifier tz.pdb.api.base
  *
  */
-public interface DBStatement extends DBCreate {
+public interface DBStatement extends DBBuilt {
 
 	public String statement();
 	
