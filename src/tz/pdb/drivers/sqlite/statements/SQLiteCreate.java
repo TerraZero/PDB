@@ -57,14 +57,7 @@ public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 		string.append(this.name).append(" (");
 		
 		this.fields.forEach((field) -> {
-			string.append(field.name()).append(" ").append(field.type().toUpperCase());
-			if (field.size() > 0) {
-				string.append("(").append(field.size()).append(")");
-			}
-			for (String additional : field.additionals()) {
-				string.append(" ").append(additional);
-			}
-			string.append(", ");
+			string.append(field.built()).append(" ");
 		});
 		
 		if (this.keys.size() > 0) {
@@ -149,6 +142,12 @@ public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 	@Override
 	public void exe() {
 		this.execute();
+	}
+
+	@Override
+	public DBCreate field(DBDefineField field) {
+		this.fields.add(field);
+		return this;
 	}
 
 }

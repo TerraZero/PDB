@@ -16,10 +16,18 @@ public interface DBDefineField extends DBBuilt {
 
 	public String name();
 	
+	public DBDefineField name(String name);
+	
 	public String type();
+	
+	public DBDefineField type(String type);
 	
 	public int size();
 	
+	public DBDefineField size(int size);
+	
 	public String[] additionals();
+	
+	public DBDefineField additionals(String[] additionals);
 	
 }

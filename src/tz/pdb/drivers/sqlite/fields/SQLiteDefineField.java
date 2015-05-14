@@ -19,6 +19,10 @@ public class SQLiteDefineField implements DBDefineField {
 	private int size;
 	private String[] additionals;
 	
+	public SQLiteDefineField() {
+		
+	}
+	
 	public SQLiteDefineField(String name, String type, String[] additionals) {
 		this.name = name;
 		this.type = type;
@@ -66,8 +70,38 @@ public class SQLiteDefineField implements DBDefineField {
 
 	@Override
 	public String built() {
-		// TODO Auto-generated method stub
-		return null;
+		String s = this.name + " " + this.type.toUpperCase();
+		if (this.size > 0) {
+			s += "(" + this.size + ")";
+		}
+		for (String additional : this.additionals) {
+			s += " " + additional.toUpperCase();
+		}
+		return s + ",";
+	}
+
+	@Override
+	public DBDefineField name(String name) {
+		this.name = name;
+		return this;
+	}
+
+	@Override
+	public DBDefineField type(String type) {
+		this.type = type;
+		return this;
+	}
+
+	@Override
+	public DBDefineField size(int size) {
+		this.size = size;
+		return this;
+	}
+
+	@Override
+	public DBDefineField additionals(String[] additionals) {
+		this.additionals = additionals;
+		return this;
 	}
 
 }

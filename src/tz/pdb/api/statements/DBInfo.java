@@ -10,4 +10,6 @@ public interface DBInfo extends DBStatement {
 	
 	public String[] tables(boolean force);
 	
+	public String autoIncrement();
+	
 }

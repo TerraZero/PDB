@@ -2,31 +2,15 @@ package tz.pdb.drivers.sqlite.statements;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBDriver;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.statements.DBInfo;
-import tz.pdb.drivers.sqlite.SQLiteInfoData;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 
 public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 	
-	private static Map<DBDriver, SQLiteInfoData> data;
-	
-	public static SQLiteInfoData data(DBDriver driver) {
-		if (SQLiteInfo.data == null) {
-			SQLiteInfo.data = new HashMap<DBDriver, SQLiteInfoData>();
-		}
-		SQLiteInfoData data = SQLiteInfo.data.get(driver);
-		if (data == null) {
-			data = new SQLiteInfoData();
-			SQLiteInfo.data.put(driver, data);
-		}
-		return data;
-	}
+	private String[] tables;
 
 	@Override
 	public void exe() {
@@ -58,9 +42,7 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 
 	@Override
 	public String[] tables(boolean force) {
-		SQLiteInfoData data = SQLiteInfo.data(this.driver());
-		String[] tables = data.tables(); 
-		if (force || tables == null) {
+		if (force || this.tables == null) {
 			ResultSet result = null;
 			SQLiteQuery query = null;
 			
@@ -69,7 +51,7 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 			result = query.execute();
 			try {
 				if (result.next()) {
-					tables = new String[result.getInt(1)];
+					this.tables = new String[result.getInt(1)];
 				}
 			} catch (SQLException e) {
 				Log.fatal(this.ident(), "Can not read the count of tables.");
@@ -80,14 +62,18 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 			try {
 				int i = 0;
 				while (result.next()) {
-					tables[i++] = result.getString(1);
+					this.tables[i++] = result.getString(1);
 				}
 			} catch (SQLException e) {
 				Log.fatal(this.ident(), "Can not read the tables.");
 			}
-			data.tables(tables);
 		}
-		return tables;
+		return this.tables;
+	}
+
+	@Override
+	public String autoIncrement() {
+		return "AUTOINCREMENT";
 	}
 
 }

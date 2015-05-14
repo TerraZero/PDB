@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import tz.core.logger.Log;
 import tz.pdb.api.DBDriver;
+import tz.pdb.api.fields.DBDefineField;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.api.statements.DBInfo;
@@ -16,6 +17,7 @@ import tz.pdb.api.statements.DBOperation;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.api.statements.DBUpdate;
+import tz.pdb.drivers.sqlite.fields.SQLiteDefineField;
 import tz.pdb.drivers.sqlite.statements.SQLiteDelete;
 import tz.pdb.drivers.sqlite.statements.SQLiteInfo;
 import tz.pdb.drivers.sqlite.statements.SQLiteInsert;
@@ -38,6 +40,7 @@ import tz.pdb.drivers.sqlite.statements.SQLiteUpdate;
 public class SQLiteDriver implements DBDriver {
 	
 	private Connection connection;
+	private DBInfo info;
 
 	/* 
 	 * @see tz.pdb.api.driver.DBDriver#connect(java.lang.String, java.lang.String, java.lang.String)
@@ -192,9 +195,16 @@ public class SQLiteDriver implements DBDriver {
 
 	@Override
 	public DBInfo info() {
-		DBInfo info = new SQLiteInfo();
-		info.driver(this);
-		return info;
+		if (this.info == null) {
+			this.info = new SQLiteInfo();
+			this.info.driver(this);
+		}
+		return this.info;
+	}
+
+	@Override
+	public DBDefineField defineField() {
+		return new SQLiteDefineField();
 	}
 	
 }

@@ -25,6 +25,8 @@ public interface DBCreate extends DBUpdating {
 	
 	public DBCreate field(String name, String type, int size, String... additionals);
 	
+	public DBCreate field(DBDefineField field);
+	
 	public DBCreate keys(String... keys);
 	
 	public List<DBDefineField> fields();
