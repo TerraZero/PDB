@@ -85,4 +85,20 @@ public class SQLPlaceholder {
 		return "#" + value;
 	}
 	
+	public static String toValue(String[] values) {
+		String s = "";
+		for (String value : values) {
+			s += ", '" + value + "'";
+		}
+		return "(" + s.substring(2) + ")";
+	}
+	
+	public static String toValue(int[] values) {
+		String s = "";
+		for (int value : values) {
+			s += ", " + value;
+		}
+		return "(" + s.substring(2) + ")";
+	}
+	
 }

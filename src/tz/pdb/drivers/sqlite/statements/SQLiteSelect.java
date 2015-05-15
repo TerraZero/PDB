@@ -66,9 +66,9 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 		StringBuilder string = new StringBuilder();
 		if (this.selectAll) {
 			if (this.selectAllFunction == null) {
-				s += this.selectAllFunction.toUpperCase() + "(*)"; 
-			} else {
 				s += "*";
+			} else {
+				s += this.selectAllFunction.toUpperCase() + "(*)";
 			}
 		} else {
 			this.fields.forEach((alias, field) -> {

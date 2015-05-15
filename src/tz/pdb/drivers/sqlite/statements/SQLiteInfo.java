@@ -14,24 +14,24 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 
 	@Override
 	public void exe() {
-		Log.warning(this.ident(), "Operation can not use the exe method");
+		Log.warning(this.ident(), "Info can not use the exe method");
 	}
 	
 	@Override
 	public String built() {
-		Log.warning(this.ident(), "Operation can not use the built method");
+		Log.warning(this.ident(), "Info can not use the built method");
 		return null;
 	}
 	
 	@Override
 	public String statement() {
-		Log.warning(this.ident(), "Operation can not use the statement method");
+		Log.warning(this.ident(), "Info can not use the statement method");
 		return null;
 	}
 	
 	@Override
 	public DBStatement placeholder(String placeholder, String value) {
-		Log.warning(this.ident(), "Operation can not use the placeholder method");
+		Log.warning(this.ident(), "Info can not use the placeholder method");
 		return this;
 	}
 	
@@ -73,7 +73,8 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 
 	@Override
 	public String autoIncrement() {
-		return "AUTOINCREMENT";
+		Log.warning(this.ident(), "SQLite have not a autoincrements state!");
+		return "";
 	}
 
 }
