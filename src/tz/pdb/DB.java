@@ -13,7 +13,6 @@ import tz.pdb.api.statements.DBOperation;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.api.statements.DBUpdate;
-import tz.pdb.drivers.sqlite.SQLiteDriver;
 
 /**
  * 
@@ -45,12 +44,6 @@ public class DB {
 			Log.fatal("DB", "No connection has been established");
 		}
 		return null;
-	}
-
-	public static void main(String[] args) {
-		DB.create(DB.DEFAULT_DB, "db/test.db", null, null, new SQLiteDriver());
-		DBDriver d = DB.driver();
-		
 	}
 	
 	public static DBSelect select() {
