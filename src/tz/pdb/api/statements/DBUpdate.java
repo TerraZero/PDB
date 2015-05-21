@@ -14,6 +14,12 @@ import tz.pdb.api.fields.DBCondition;
  *
  */
 public interface DBUpdate extends DBUpdating {
+	
+	public static final String TYPE = "update";
+	
+	public default String type() {
+		return DBUpdate.TYPE;
+	}
 
 	public String table();
 	

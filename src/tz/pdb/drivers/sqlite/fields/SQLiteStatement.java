@@ -1,11 +1,15 @@
 package tz.pdb.drivers.sqlite.fields;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import tz.core.logger.Log;
+import tz.pdb.DB;
 import tz.pdb.SQLPlaceholder;
 import tz.pdb.api.DBDriver;
+import tz.pdb.api.base.DBExtendData;
 import tz.pdb.api.base.DBStatement;
 
 /**
@@ -22,9 +26,11 @@ public abstract class SQLiteStatement implements DBStatement {
 	
 	private DBDriver driver;
 	private Map<String, String> placeholders;
+	private List<DBExtendData> extend;
 	
 	public SQLiteStatement() {
 		this.placeholders = new HashMap<String, String>();
+		this.extend = new ArrayList<DBExtendData>();
 	}
 
 	/* 
@@ -57,12 +63,33 @@ public abstract class SQLiteStatement implements DBStatement {
 	 */
 	@Override
 	public String statement() {
+		DB.extend(this);
 		return SQLPlaceholder.generic(this.built(), this.placeholders, this.ident());
 	}
 	
 	public DBStatement placeholder(String placeholder, String value) {
 		this.placeholders.put(placeholder, value);
 		return this;
+	}
+	
+	/* 
+	 * @see tz.pdb.api.base.DBStatement#extend(java.lang.String, tz.pdb.api.base.DBExtendData)
+	 */
+	@Override
+	public DBStatement extend(String extend, DBExtendData data) {
+		if (data == null) {
+			data = new SQLiteExtendData();
+		}
+		this.extend.add(data.extend(extend));
+		return this;
+	}
+	
+	/* 
+	 * @see tz.pdb.api.base.DBStatement#extend()
+	 */
+	@Override
+	public List<DBExtendData> extend() {
+		return this.extend;
 	}
 
 }

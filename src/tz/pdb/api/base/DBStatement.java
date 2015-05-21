@@ -1,5 +1,8 @@
 package tz.pdb.api.base;
 
+import java.util.List;
+
+import bases.Extendable;
 import tz.pdb.api.DBDriver;
 
 /**
@@ -12,7 +15,9 @@ import tz.pdb.api.DBDriver;
  * @identifier tz.pdb.api.base
  *
  */
-public interface DBStatement extends DBBuilt {
+public interface DBStatement extends DBBuilt, Extendable<DBStatement> {
+	
+	public String type();
 
 	public String statement();
 	
@@ -25,5 +30,13 @@ public interface DBStatement extends DBBuilt {
 	public DBStatement placeholder(String placeholder, String value);
 	
 	public String ident();
+	
+	public default DBStatement extend(String extend) {
+		return this.extend(extend, null);
+	}
+	
+	public DBStatement extend(String extend, DBExtendData data);
+	
+	public List<DBExtendData> extend();
 	
 }

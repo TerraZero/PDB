@@ -1,10 +1,15 @@
 package tz.pdb;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import tz.core.logger.Log;
 import tz.pdb.api.DBDriver;
+import tz.pdb.api.DBExtender;
+import tz.pdb.api.base.DBExtendData;
+import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.api.statements.DBInfo;
@@ -29,6 +34,38 @@ public class DB {
 	public static final String DEFAULT_DB = "default";
 	
 	private static Map<String, DB> dbs;
+	private static List<DBExtender> extender;
+	
+	static {
+		DB.extender = new ArrayList<DBExtender>();
+	}
+	
+	public static void extend(DBStatement statement) {
+		for (DBExtendData data : statement.extend()) {
+			if (!data.isLoaded()) {
+				data.loaded(true);
+				DBExtender extender = DB.extender(data.extend());
+				if (extender == null) {
+					Log.fatal("DB", "The extender [0] is not defined!", data.extend());
+				} else {
+					extender.extend(statement.type(), statement, data);
+				}
+			}
+		}
+	}
+	
+	public static DBExtender extender(String extend) {
+		for (DBExtender extender : DB.extender) {
+			if (extender.name().equals(extend)) {
+				return extender;
+			}
+		}
+		return null;
+	}
+	
+	public static void addExtender(DBExtender extender) {
+		DB.extender.add(extender);
+	}
 	
 	public static void create(String name, String host, String user, String password, DBDriver driver) {
 		if (DB.dbs == null) {

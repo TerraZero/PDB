@@ -14,6 +14,12 @@ import tz.pdb.api.fields.DBCondition;
  *
  */
 public interface DBDelete extends DBUpdating {
+	
+	public static final String TYPE = "delete";
+	
+	public default String type() {
+		return DBDelete.TYPE;
+	}
 
 	public String table();
 	

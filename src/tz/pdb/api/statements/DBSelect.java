@@ -20,6 +20,12 @@ import tz.pdb.api.fields.DBOrder;
  */
 public interface DBSelect extends DBQuerieing {
 	
+	public static final String TYPE = "select";
+	
+	public default String type() {
+		return DBSelect.TYPE;
+	}
+	
 	public DBSelect selectAll();
 	
 	public DBSelect selectAll(String function);

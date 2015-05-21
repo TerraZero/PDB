@@ -16,6 +16,12 @@ import tz.pdb.api.fields.DBDefineField;
  *
  */
 public interface DBCreate extends DBUpdating {
+	
+	public static final String TYPE = "create";
+	
+	public default String type() {
+		return DBCreate.TYPE;
+	}
 
 	public DBCreate name(String name);
 	
