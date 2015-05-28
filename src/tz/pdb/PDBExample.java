@@ -35,6 +35,7 @@ public class PDBExample {
 			
 			@Override
 			public void extend(String type, DBStatement statement, DBExtendData data) {
+				System.out.println(type);
 				DBSelect select = statement.child();
 				String node = select.table("node");
 				select.join("inner", "access", this.alias("access"), "n.nid", DBJoin.KEY + ".nid");
