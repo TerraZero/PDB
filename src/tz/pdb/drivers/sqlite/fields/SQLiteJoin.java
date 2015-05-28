@@ -1,5 +1,6 @@
 package tz.pdb.drivers.sqlite.fields;
 
+import tz.pdb.SQLPlaceholder;
 import tz.pdb.api.fields.DBJoin;
 
 /**
@@ -57,7 +58,7 @@ public class SQLiteJoin extends SQLiteCondition implements DBJoin {
 			s += " " + this.table + " AS " + this.alias + " ON";
 		}
 		s += super.built();
-		return s;
+		return SQLPlaceholder.built(s, "key", this.alias).subject();
 	}
 
 	/* 

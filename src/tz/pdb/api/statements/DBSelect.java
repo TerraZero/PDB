@@ -83,7 +83,7 @@ public interface DBSelect extends DBQuerieing {
 	
 	public boolean hasTable(String table);
 	
-	public String tableAlias(String table);
+	public String table(String table);
 	
 	public Map<String, DBField> fields();
 	

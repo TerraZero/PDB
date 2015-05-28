@@ -2,7 +2,7 @@ package tz.pdb.api.base;
 
 import java.util.List;
 
-import bases.Extendable;
+import tz.bases.Extendable;
 import tz.pdb.api.DBDriver;
 
 /**

@@ -16,6 +16,10 @@ import tz.core.logger.Log;
  *
  */
 public class SQLPlaceholder {
+	
+	public static SQLPlaceholderExecuter built(String subject, String key, String value) {
+		return new SQLPlaceholderExecuter(subject).execute(key, value);
+	}
 
 	public static String generic(String subject, Map<String, String> placeholders, String ident) {
 		for(Entry<String, String> entry : placeholders.entrySet()) {

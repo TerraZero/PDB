@@ -14,6 +14,8 @@ import tz.pdb.api.base.DBBuilt;
  */
 public interface DBJoin extends DBCondition, DBBuilt {
 	
+	public static final String KEY = "#key#";
+	
 	public String table();
 	
 	public String alias();

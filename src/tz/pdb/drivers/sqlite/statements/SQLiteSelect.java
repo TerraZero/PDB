@@ -158,7 +158,7 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	 * @see tz.pdb.api.DBSelect#tableAlias(java.lang.String)
 	 */
 	@Override
-	public String tableAlias(String table) {
+	public String table(String table) {
 		if (table.equals(this.table)) return this.alias;
 		Iterator<SQLiteJoin> i = this.joins.iterator();
 		while (i.hasNext()) {
