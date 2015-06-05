@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import tz.core.logger.Log;
 import tz.pdb.api.DBDriver;
+import tz.pdb.api.DBResult;
 import tz.pdb.api.fields.DBDefineField;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.api.statements.DBDelete;
@@ -205,6 +206,26 @@ public class SQLiteDriver implements DBDriver {
 	@Override
 	public DBDefineField defineField() {
 		return new SQLiteDefineField();
+	}
+
+	@Override
+	public DBResult execute(String type, String statement) {
+		try {
+			switch (type) {
+				case DBSelect.TYPE :
+				case DBQuery.TYPE :
+					return new DBResult(statement, type, this.execute().executeQuery(statement));
+				case DBUpdate.TYPE :
+				case DBDelete.TYPE :
+				case DBCreate.TYPE :
+					return new DBResult(statement, type, this.execute().executeUpdate(statement));
+				default :
+					Log.warning(this.ident(), "The statment type [0] is not supported.", type);
+			}
+		} catch (SQLException e) {
+			return new DBResult(statement, type, e);
+		}
+		return null;
 	}
 	
 }

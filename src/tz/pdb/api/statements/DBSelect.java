@@ -85,6 +85,8 @@ public interface DBSelect extends DBQuerieing {
 	
 	public String table(String table);
 	
+	public Map<String, String> tables();
+	
 	public Map<String, DBField> fields();
 	
 	public boolean hasField(String alias);

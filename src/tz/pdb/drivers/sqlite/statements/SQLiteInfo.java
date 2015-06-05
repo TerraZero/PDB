@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBResult;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.statements.DBInfo;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
@@ -13,8 +14,9 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 	private String[] tables;
 
 	@Override
-	public void exe() {
+	public DBResult exe() {
 		Log.warning(this.ident(), "Info can not use the exe method");
+		return null;
 	}
 	
 	@Override

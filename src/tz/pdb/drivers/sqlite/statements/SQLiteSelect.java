@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBResult;
 import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.fields.DBField;
 import tz.pdb.api.fields.DBJoin;
@@ -94,6 +96,10 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 			s += string.substring(4).toString();
 		}
 		
+		for (Entry<String, String> entry : this.tables().entrySet()) {
+			s = s.replaceAll("\\?\\[" + entry.getKey() + "\\]", entry.getValue());
+		}
+		
 		return s;
 	}
 	
@@ -167,6 +173,8 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 		}
 		return null;
 	}
+	
+	
 
 	/* 
 	 * @see tz.pdb.api.DBSelect#from(java.lang.String, java.lang.String)
@@ -179,8 +187,14 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	}
 
 	@Override
-	public void exe() {
-		this.execute();
+	public DBResult exe() {
+		String statement = this.statement();
+		try {
+			return new DBResult(statement, this.type(), this.driver().execute().executeQuery(statement));
+		} catch (SQLException e) {
+			Log.fatal(this.ident(), "Can not execute the select statement.");
+			return new DBResult(statement, this.type(), e);
+		}
 	}
 
 	@Override
@@ -252,6 +266,24 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	@Override
 	public String selectAllFunction() {
 		return this.selectAllFunction;
+	}
+
+	@Override
+	public String type() {
+		return DBSelect.TYPE;
+	}
+
+	@Override
+	public Map<String, String> tables() {
+		Map<String, String> tables = new HashMap<String, String>();
+		
+		tables.put(this.table, this.alias);
+		Iterator<SQLiteJoin> i = this.joins.iterator();
+		while (i.hasNext()) {
+			SQLiteJoin join = i.next();
+			tables.put(join.table(), join.alias());
+		}
+		return tables;
 	}
 
 }

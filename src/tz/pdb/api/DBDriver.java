@@ -58,4 +58,6 @@ public interface DBDriver {
 	
 	public DBDefineField defineField();
 	
+	public DBResult execute(String type, String statement);
+	
 }

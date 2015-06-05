@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBResult;
 import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
@@ -42,8 +43,14 @@ public class SQLiteDelete extends SQLiteStatement implements DBDelete {
 	 * @see tz.pdb.api.base.DBStatement#exe()
 	 */
 	@Override
-	public void exe() {
-		this.execute();
+	public DBResult exe() {
+		String statement = this.statement();
+		try {
+			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
+		} catch (SQLException e) {
+			Log.fatal(this.ident(), "Can not execute the delete statement.");
+			return new DBResult(statement, this.type(), e);
+		}
 	}
 
 	/* 

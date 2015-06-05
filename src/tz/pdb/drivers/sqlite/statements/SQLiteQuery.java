@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBResult;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 
@@ -34,8 +35,14 @@ public class SQLiteQuery extends SQLiteStatement implements DBQuery {
 	}
 
 	@Override
-	public void exe() {
-		this.execute();
+	public DBResult exe() {
+		String statement = this.statement();
+		try {
+			return new DBResult(statement, this.type(), this.driver().execute().executeQuery(statement));
+		} catch (SQLException e) {
+			Log.fatal(this.ident(), "Can not execute the query statement.");
+			return new DBResult(statement, this.type(), e);
+		}
 	}
 
 	@Override

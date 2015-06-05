@@ -4,6 +4,7 @@ import java.util.List;
 
 import tz.bases.Extendable;
 import tz.pdb.api.DBDriver;
+import tz.pdb.api.DBResult;
 
 /**
  * 
@@ -25,7 +26,7 @@ public interface DBStatement extends DBBuilt, Extendable<DBStatement> {
 	
 	public DBStatement driver(DBDriver driver);
 	
-	public void exe();
+	public DBResult exe();
 	
 	public DBStatement placeholder(String placeholder, String value);
 	

@@ -1,5 +1,6 @@
 package tz.pdb;
 
+import tz.pdb.api.DBBuffer;
 import tz.pdb.api.DBExtender;
 import tz.pdb.api.base.DBExtendData;
 import tz.pdb.api.base.DBStatement;
@@ -35,18 +36,22 @@ public class PDBExample {
 			
 			@Override
 			public void extend(String type, DBStatement statement, DBExtendData data) {
-				System.out.println(type);
 				DBSelect select = statement.child();
-				String node = select.table("node");
-				select.join("inner", "access", this.alias("access"), "n.nid", DBJoin.KEY + ".nid");
+				select.join("inner", "access", this.alias("access"), "?[node].nid", DBJoin.KEY + ".nid");
 			}
 			
 		});
 		
 		DBSelect select = DB.select();
 		select.extend("access");
-		select.from("node", "n").fields("n", "nid", "name", "type");
-		System.out.println(select.statement());
+		select.from("node", "n").fields("n", "nid", "name", "type").where("?[node].name", ":name");
+		DBBuffer buffer = new DBBuffer(select);
+		System.out.println(buffer.buffer());
+		System.out.println(buffer.vars(":name", "Paul").built(true));
+		System.out.println(buffer.vars(":name", "Nico").built(true));
+		System.out.println(buffer.vars(":name", "Georg").built(true));
+		System.out.println(buffer.vars(":name", "Franky").built(true));
+		System.out.println(buffer.built(true));
 	}
 	
 }

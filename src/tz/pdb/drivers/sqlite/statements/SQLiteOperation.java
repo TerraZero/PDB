@@ -3,6 +3,7 @@ package tz.pdb.drivers.sqlite.statements;
 import java.sql.SQLException;
 
 import tz.core.logger.Log;
+import tz.pdb.api.DBResult;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.statements.DBOperation;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
@@ -10,8 +11,9 @@ import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 public class SQLiteOperation extends SQLiteStatement implements DBOperation {
 
 	@Override
-	public void exe() {
+	public DBResult exe() {
 		Log.warning(this.ident(), "Operation can not use the exe method");
+		return null;
 	}
 	
 	@Override

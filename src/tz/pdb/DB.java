@@ -40,6 +40,11 @@ public class DB {
 		DB.extender = new ArrayList<DBExtender>();
 	}
 	
+	public static String tableasing(String built, DBStatement statement) {
+		
+		return built;
+	}
+	
 	public static void extend(DBStatement statement) {
 		for (DBExtendData data : statement.extend()) {
 			if (!data.isLoaded()) {
