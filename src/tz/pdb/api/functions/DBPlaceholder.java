@@ -1,4 +1,4 @@
-package tz.pdb;
+package tz.pdb.api.functions;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,10 +15,10 @@ import tz.core.logger.Log;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLPlaceholder {
+public class DBPlaceholder {
 	
-	public static SQLPlaceholderExecuter built(String subject, String key, String value) {
-		return new SQLPlaceholderExecuter(subject).execute(key, value);
+	public static DBPlaceholderExecuter built(String subject, String key, String value) {
+		return new DBPlaceholderExecuter(subject).execute(key, value);
 	}
 
 	public static String generic(String subject, Map<String, String> placeholders, String ident) {
@@ -53,7 +53,7 @@ public class SQLPlaceholder {
 	}
 	
 	public static String renderValue(String value, String ident) {
-		return SQLPlaceholder.renderValue(value, ident, false);
+		return DBPlaceholder.renderValue(value, ident, false);
 	}
 	
 	public static String renderValue(String value, String ident, boolean strict) {

@@ -7,10 +7,10 @@ import java.util.Map;
 
 import tz.core.logger.Log;
 import tz.pdb.DB;
-import tz.pdb.SQLPlaceholder;
 import tz.pdb.api.DBDriver;
 import tz.pdb.api.base.DBExtendData;
 import tz.pdb.api.base.DBStatement;
+import tz.pdb.api.functions.DBPlaceholder;
 
 /**
  * 
@@ -64,7 +64,7 @@ public abstract class SQLiteStatement implements DBStatement {
 	@Override
 	public String statement() {
 		DB.extend(this);
-		return SQLPlaceholder.generic(this.built(), this.placeholders, this.ident());
+		return DBPlaceholder.generic(this.built(), this.placeholders, this.ident());
 	}
 	
 	public DBStatement placeholder(String placeholder, String value) {

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBResult;
 import tz.pdb.api.fields.DBDefineField;
+import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.drivers.sqlite.fields.SQLiteDefineField;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;

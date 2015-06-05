@@ -1,4 +1,4 @@
-package tz.pdb.api;
+package tz.pdb.api.functions;
 
 import tz.pdb.api.base.DBExtendData;
 import tz.pdb.api.base.DBStatement;

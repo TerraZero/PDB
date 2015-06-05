@@ -1,10 +1,10 @@
 package tz.pdb;
 
-import tz.pdb.api.DBBuffer;
-import tz.pdb.api.DBExtender;
 import tz.pdb.api.base.DBExtendData;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.fields.DBJoin;
+import tz.pdb.api.functions.DBBuffer;
+import tz.pdb.api.functions.DBExtender;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.drivers.sqlite.SQLiteDriver;
 
@@ -44,11 +44,11 @@ public class PDBExample {
 		
 		DBSelect select = DB.select();
 		select.extend("access");
-		select.from("node", "n").fields("n", "nid", "name", "type").where("?[node].name", ":name");
+		select.from("node", "n").fields("n", "nid", "name", "type").where("?[node].name", ":name").and("?[node].nid", "#nid");
 		DBBuffer buffer = new DBBuffer(select);
 		System.out.println(buffer.buffer());
 		System.out.println(buffer.vars(":name", "Paul").built(true));
-		System.out.println(buffer.vars(":name", "Nico").built(true));
+		System.out.println(buffer.vars("#nid", "Nico").built(true));
 		System.out.println(buffer.vars(":name", "Georg").built(true));
 		System.out.println(buffer.vars(":name", "Franky").built(true));
 		System.out.println(buffer.built(true));

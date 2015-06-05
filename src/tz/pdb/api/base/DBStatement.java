@@ -4,7 +4,7 @@ import java.util.List;
 
 import tz.bases.Extendable;
 import tz.pdb.api.DBDriver;
-import tz.pdb.api.DBResult;
+import tz.pdb.api.functions.DBResult;
 
 /**
  * 

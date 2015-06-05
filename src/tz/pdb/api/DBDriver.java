@@ -3,6 +3,7 @@ package tz.pdb.api;
 import java.sql.Statement;
 
 import tz.pdb.api.fields.DBDefineField;
+import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.api.statements.DBInfo;

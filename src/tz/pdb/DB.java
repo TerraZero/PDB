@@ -7,9 +7,9 @@ import java.util.Map;
 
 import tz.core.logger.Log;
 import tz.pdb.api.DBDriver;
-import tz.pdb.api.DBExtender;
 import tz.pdb.api.base.DBExtendData;
 import tz.pdb.api.base.DBStatement;
+import tz.pdb.api.functions.DBExtender;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.api.statements.DBInfo;
@@ -38,11 +38,6 @@ public class DB {
 	
 	static {
 		DB.extender = new ArrayList<DBExtender>();
-	}
-	
-	public static String tableasing(String built, DBStatement statement) {
-		
-		return built;
 	}
 	
 	public static void extend(DBStatement statement) {

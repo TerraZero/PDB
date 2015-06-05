@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBResult;
 import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.fields.DBField;
 import tz.pdb.api.fields.DBJoin;
 import tz.pdb.api.fields.DBOrder;
+import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
 import tz.pdb.drivers.sqlite.fields.SQLiteField;
@@ -32,8 +32,6 @@ import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
  *
  */
 public class SQLiteSelect extends SQLiteStatement implements DBSelect {
-	
-	public static final String DEFAULT_FIELD_TABLE = "FIELDS";
 	
 	private String table;
 	private String alias;
@@ -266,11 +264,6 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	@Override
 	public String selectAllFunction() {
 		return this.selectAllFunction;
-	}
-
-	@Override
-	public String type() {
-		return DBSelect.TYPE;
 	}
 
 	@Override

@@ -1,10 +1,10 @@
-package tz.pdb;
+package tz.pdb.api.functions;
 
-public class SQLPlaceholderExecuter {
+public class DBPlaceholderExecuter {
 	
 	private String subject;
 	
-	public SQLPlaceholderExecuter(String subject) {
+	public DBPlaceholderExecuter(String subject) {
 		this.subject = subject;
 	}
 	
@@ -12,7 +12,7 @@ public class SQLPlaceholderExecuter {
 		return this.subject;
 	}
 	
-	public SQLPlaceholderExecuter execute(String key, String value) {
+	public DBPlaceholderExecuter execute(String key, String value) {
 		this.subject = this.subject.replaceAll("#" + key + "#", value);
 		return this;
 	}

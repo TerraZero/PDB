@@ -8,8 +8,8 @@ import java.util.Properties;
 
 import tz.core.logger.Log;
 import tz.pdb.api.DBDriver;
-import tz.pdb.api.DBResult;
 import tz.pdb.api.fields.DBDefineField;
+import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.api.statements.DBInfo;

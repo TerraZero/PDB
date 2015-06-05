@@ -3,8 +3,8 @@ package tz.pdb.drivers.sqlite.statements;
 import java.sql.SQLException;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBResult;
 import tz.pdb.api.base.DBStatement;
+import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBOperation;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 

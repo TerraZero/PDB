@@ -1,4 +1,4 @@
-package tz.pdb.api;
+package tz.pdb.api.functions;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

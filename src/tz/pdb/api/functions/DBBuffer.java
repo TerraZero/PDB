@@ -1,11 +1,10 @@
-package tz.pdb.api;
+package tz.pdb.api.functions;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import tz.core.logger.Log;
 import tz.pdb.DB;
-import tz.pdb.SQLPlaceholder;
 import tz.pdb.api.base.DBStatement;
 
 public class DBBuffer {
@@ -44,7 +43,7 @@ public class DBBuffer {
 	}
 
 	public DBResult execute(boolean clear) {
-		String statement = SQLPlaceholder.generic(this.buffer, this.placeholders, this.ident());
+		String statement = DBPlaceholder.generic(this.buffer, this.placeholders, this.ident());
 		if (clear) {
 			this.placeholders.clear();
 		}
@@ -56,7 +55,7 @@ public class DBBuffer {
 	}
 	
 	public String built(boolean clear) {
-		String built = SQLPlaceholder.generic(this.buffer, this.placeholders, this.ident());
+		String built = DBPlaceholder.generic(this.buffer, this.placeholders, this.ident());
 		if (clear) {
 			this.placeholders.clear();
 		}

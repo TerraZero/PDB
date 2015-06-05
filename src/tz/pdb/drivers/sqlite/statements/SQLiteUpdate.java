@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import tz.core.logger.Log;
-import tz.pdb.SQLPlaceholder;
-import tz.pdb.api.DBResult;
 import tz.pdb.api.fields.DBCondition;
+import tz.pdb.api.functions.DBPlaceholder;
+import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBUpdate;
 import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
@@ -87,7 +87,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 		StringBuilder sb = new StringBuilder("UPDATE ");
 		sb.append(this.table).append(" SET ");
 		this.values.forEach((col, value) -> {
-			sb.append(col).append(" = ").append(SQLPlaceholder.renderValue(value, this.ident()));
+			sb.append(col).append(" = ").append(DBPlaceholder.renderValue(value, this.ident()));
 		});
 		
 		if (this.conditions.size() > 0) {
@@ -132,7 +132,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 	 */
 	@Override
 	public DBUpdate set(String col, String value) {
-		return this.update(col, SQLPlaceholder.maskValue(value));
+		return this.update(col, DBPlaceholder.maskValue(value));
 	}
 
 	/* 
@@ -140,7 +140,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 	 */
 	@Override
 	public DBUpdate set(String col, int value) {
-		return this.update(col, SQLPlaceholder.maskValue(value));
+		return this.update(col, DBPlaceholder.maskValue(value));
 	}
 
 	/* 

@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tz.core.logger.Log;
-import tz.pdb.api.DBResult;
+import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
 
