@@ -1,21 +1,21 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.def.statements;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBQuery;
-import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.pdb.drivers.def.fields.SQLDefStatement;
 import tz.sys.SysUtil;
 
-public class SQLiteQuery extends SQLiteStatement implements DBQuery {
+public class SQLDefQuery extends SQLDefStatement implements DBQuery {
 	
 	private String query;
 	
-	public SQLiteQuery() {
+	public SQLDefQuery() {
 	}
 	
-	public SQLiteQuery(String query) {
+	public SQLDefQuery(String query) {
 		this.query = query;
 	}
 

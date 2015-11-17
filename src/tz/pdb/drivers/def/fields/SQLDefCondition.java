@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite.fields;
+package tz.pdb.drivers.def.fields;
 
 import tz.pdb.api.fields.DBCondition;
 
@@ -12,15 +12,15 @@ import tz.pdb.api.fields.DBCondition;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLiteCondition implements DBCondition {
+public class SQLDefCondition implements DBCondition {
 	
-	private SQLiteCondition next;
+	private SQLDefCondition next;
 	private String one;
 	private String two;
 	private String equal;
 	private String operation;
 
-	public SQLiteCondition(String one, String two, String equal, String operation) {
+	public SQLDefCondition(String one, String two, String equal, String operation) {
 		this.one = one;
 		this.two = two;
 		this.equal = equal;
@@ -64,7 +64,7 @@ public class SQLiteCondition implements DBCondition {
 	 */
 	@Override
 	public DBCondition and(String one, String two, String equal) {
-		this.next = new SQLiteCondition(one, two, equal, DBCondition.OP_AND);
+		this.next = new SQLDefCondition(one, two, equal, DBCondition.OP_AND);
 		return this.next();
 	}
 	
@@ -73,7 +73,7 @@ public class SQLiteCondition implements DBCondition {
 	 */
 	@Override
 	public DBCondition or(String one, String two, String equal) {
-		this.next = new SQLiteCondition(one, two, equal, DBCondition.OP_OR);
+		this.next = new SQLDefCondition(one, two, equal, DBCondition.OP_OR);
 		return this.next();
 	}
 

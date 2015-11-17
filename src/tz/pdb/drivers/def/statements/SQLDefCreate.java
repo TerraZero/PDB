@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.def.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.List;
 import tz.pdb.api.fields.DBDefineField;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBCreate;
-import tz.pdb.drivers.sqlite.fields.SQLiteDefineField;
-import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.pdb.drivers.def.fields.SQLDefDefineField;
+import tz.pdb.drivers.def.fields.SQLDefStatement;
 import tz.sys.SysUtil;
 
 /**
@@ -21,17 +21,17 @@ import tz.sys.SysUtil;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLiteCreate extends SQLiteStatement implements DBCreate {
+public class SQLDefCreate extends SQLDefStatement implements DBCreate {
 	
 	private String name;
 	private List<DBDefineField> fields;
 	private List<String> keys;
 	
-	public SQLiteCreate() {
+	public SQLDefCreate() {
 		this.init();
 	}
 
-	public SQLiteCreate(String table) {
+	public SQLDefCreate(String table) {
 		this.init();
 		this.name(table);
 	}
@@ -81,7 +81,7 @@ public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 	 */
 	@Override
 	public DBCreate field(String name, String type, String... additionals) {
-		this.fields.add(new SQLiteDefineField(name, type, additionals));
+		this.fields.add(new SQLDefDefineField(name, type, additionals));
 		return this;
 	}
 	
@@ -90,7 +90,7 @@ public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 	 */
 	@Override
 	public DBCreate field(String name, String type, int size, String... additionals) {
-		this.fields.add(new SQLiteDefineField(name, type, size, additionals));
+		this.fields.add(new SQLDefDefineField(name, type, size, additionals));
 		return this;
 	}
 

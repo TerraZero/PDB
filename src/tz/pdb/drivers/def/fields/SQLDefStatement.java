@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite.fields;
+package tz.pdb.drivers.def.fields;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,13 +21,13 @@ import tz.pdb.api.functions.DBPlaceholder;
  * @identifier tz.pdb.api.statments
  *
  */
-public abstract class SQLiteStatement implements DBStatement {
+public abstract class SQLDefStatement implements DBStatement {
 	
 	private DBDriver driver;
 	private Map<String, String> placeholders;
 	private List<DBExtendData> extend;
 	
-	public SQLiteStatement() {
+	public SQLDefStatement() {
 		this.placeholders = new HashMap<String, String>();
 		this.extend = new ArrayList<DBExtendData>();
 	}
@@ -77,7 +77,7 @@ public abstract class SQLiteStatement implements DBStatement {
 	@Override
 	public DBStatement extend(String extend, DBExtendData data) {
 		if (data == null) {
-			data = new SQLiteExtendData();
+			data = new SQLDefExtendData();
 		}
 		this.extend.add(data.extend(extend));
 		return this;

@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite.fields;
+package tz.pdb.drivers.def.fields;
 
 import tz.pdb.api.fields.DBJoin;
 import tz.pdb.api.functions.DBPlaceholder;
@@ -13,13 +13,13 @@ import tz.pdb.api.functions.DBPlaceholder;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLiteJoin extends SQLiteCondition implements DBJoin {
+public class SQLDefJoin extends SQLDefCondition implements DBJoin {
 
 	private String type;
 	private String table;
 	private String alias;
 	
-	public SQLiteJoin(String one, String two, String equal, String operation) {
+	public SQLDefJoin(String one, String two, String equal, String operation) {
 		super(one, two, equal, operation);
 	}
 

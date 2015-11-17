@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.def.statements;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBInfo;
-import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.pdb.drivers.def.fields.SQLDefStatement;
 import tz.sys.SysUtil;
 
-public class SQLiteInfo extends SQLiteStatement implements DBInfo {
+public class SQLDefInfo extends SQLDefStatement implements DBInfo {
 	
 	private String[] tables;
 
@@ -46,9 +46,9 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 	public String[] tables(boolean force) {
 		if (force || this.tables == null) {
 			ResultSet result = null;
-			SQLiteQuery query = null;
+			SQLDefQuery query = null;
 			
-			query = new SQLiteQuery("SELECT COUNT(*) FROM sqlite_master WHERE type = 'table'");
+			query = new SQLDefQuery("SELECT COUNT(*) FROM sqlite_master WHERE type = 'table'");
 			query.driver(this.driver());
 			result = query.execute();
 			try {

@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.def.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.List;
 import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBDelete;
-import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
-import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.pdb.drivers.def.fields.SQLDefCondition;
+import tz.pdb.drivers.def.fields.SQLDefStatement;
 import tz.sys.SysUtil;
 
 /**
@@ -21,22 +21,22 @@ import tz.sys.SysUtil;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLiteDelete extends SQLiteStatement implements DBDelete {
+public class SQLDefDelete extends SQLDefStatement implements DBDelete {
 	
 	private String table;
-	private List<SQLiteCondition> conditions;
+	private List<SQLDefCondition> conditions;
 	
-	public SQLiteDelete() {
+	public SQLDefDelete() {
 		this.init();
 	}
 	
-	public SQLiteDelete(String table) {
+	public SQLDefDelete(String table) {
 		this.init(); 
 		this.table(table);
 	}
 	
 	protected void init() {
-		this.conditions = new ArrayList<SQLiteCondition>();
+		this.conditions = new ArrayList<SQLDefCondition>();
 	}
 
 	/* 
@@ -106,7 +106,7 @@ public class SQLiteDelete extends SQLiteStatement implements DBDelete {
 	 */
 	@Override
 	public DBCondition where(String one, String two, String equal) {
-		SQLiteCondition condition = new SQLiteCondition(one, two, equal, null);
+		SQLDefCondition condition = new SQLDefCondition(one, two, equal, null);
 		this.conditions.add(condition);
 		return condition;
 	}

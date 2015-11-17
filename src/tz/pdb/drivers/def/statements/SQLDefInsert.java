@@ -1,4 +1,4 @@
-package tz.pdb.drivers.sqlite.statements;
+package tz.pdb.drivers.def.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,21 +7,21 @@ import java.util.List;
 import tz.pdb.api.fields.DBRow;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBInsert;
-import tz.pdb.drivers.sqlite.fields.SQLiteRow;
-import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.pdb.drivers.def.fields.SQLDefRow;
+import tz.pdb.drivers.def.fields.SQLDefStatement;
 import tz.sys.SysUtil;
 
-public class SQLiteInsert extends SQLiteStatement implements DBInsert {
+public class SQLDefInsert extends SQLDefStatement implements DBInsert {
 	
 	private String table;
 	private String[] cols;
 	private List<DBRow> rows;
 	
-	public SQLiteInsert() {
+	public SQLDefInsert() {
 		this.init();
 	}
 	
-	public SQLiteInsert(String table) {
+	public SQLDefInsert(String table) {
 		this.init();
 		this.table(table);
 	}
@@ -72,7 +72,7 @@ public class SQLiteInsert extends SQLiteStatement implements DBInsert {
 
 	@Override
 	public DBInsert row(String... columns) {
-		this.rows.add(new SQLiteRow(columns));
+		this.rows.add(new SQLDefRow(columns));
 		return this;
 	}
 

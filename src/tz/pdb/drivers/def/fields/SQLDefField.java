@@ -1,19 +1,19 @@
-package tz.pdb.drivers.sqlite.fields;
+package tz.pdb.drivers.def.fields;
 
 import tz.pdb.api.fields.DBField;
 
-public class SQLiteField implements DBField {
+public class SQLDefField implements DBField {
 	
 	private String table;
 	private String field;
 	private String alias;
 	private String function;
 	
-	public SQLiteField() {
+	public SQLDefField() {
 		
 	}
 	
-	public SQLiteField(String table, String field, String alias, String function) {
+	public SQLDefField(String table, String field, String alias, String function) {
 		this.table = table;
 		this.field = field;
 		this.alias = alias;
