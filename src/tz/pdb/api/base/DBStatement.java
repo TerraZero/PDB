@@ -2,9 +2,9 @@ package tz.pdb.api.base;
 
 import java.util.List;
 
-import tz.bases.Extendable;
 import tz.pdb.api.DBDriver;
 import tz.pdb.api.functions.DBResult;
+import tz.sys.api.Extendable;
 
 /**
  * 

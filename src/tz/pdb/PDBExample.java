@@ -5,6 +5,8 @@ import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.fields.DBJoin;
 import tz.pdb.api.functions.DBBuffer;
 import tz.pdb.api.functions.DBExtender;
+import tz.pdb.api.statements.DBCreate;
+import tz.pdb.api.statements.DBInsert;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.drivers.sqlite.SQLiteDriver;
 
@@ -52,6 +54,17 @@ public class PDBExample {
 		System.out.println(buffer.vars(":name", "Georg").built(true));
 		System.out.println(buffer.vars(":name", "Franky").built(true));
 		System.out.println(buffer.built(true));
+		buffer.vars(":name", "Test").vars("#nid", "5");
+		System.out.println(buffer.built(true));
+		
+		DBCreate c = DB.table().name("test").field("test", "VARCHAR", 255).field("id", "INT").keys("id");
+		System.out.println(c.built());
+		DBInsert i = DB.insert();
+		i.table("test").cols("test").row(":test");
+		System.out.println(i.built());
+		DBSelect s = DB.select();
+		s.selectAll().from("test", "t").where("?[test].test", "'test'");
+		System.out.println(s.built());
 	}
 	
 }

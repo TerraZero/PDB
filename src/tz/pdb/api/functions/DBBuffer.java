@@ -3,7 +3,6 @@ package tz.pdb.api.functions;
 import java.util.HashMap;
 import java.util.Map;
 
-import tz.core.logger.Log;
 import tz.pdb.DB;
 import tz.pdb.api.base.DBStatement;
 
@@ -63,7 +62,7 @@ public class DBBuffer {
 	}
 	
 	public String ident() {
-		return Log.ident("DB", "API", "DBBuffer", this.statment.type());
+		return "DB::API::DBBuffer::" + this.statment.type();
 	}
 	
 }

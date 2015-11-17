@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import tz.core.logger.Log;
 import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.sys.SysUtil;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class SQLiteDelete extends SQLiteStatement implements DBDelete {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not execute the delete statement.");
+			SysUtil.error("Can not execute the delete statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}
@@ -79,7 +79,7 @@ public class SQLiteDelete extends SQLiteStatement implements DBDelete {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not execute the delete statement.");
+			SysUtil.error("Can not execute the delete statement.");
 			return -1;
 		}
 	}
@@ -116,7 +116,7 @@ public class SQLiteDelete extends SQLiteStatement implements DBDelete {
 	 */
 	@Override
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite", "Delete");
+		return "DB::Driver::SQLite::Delete";
 	}
 
 }

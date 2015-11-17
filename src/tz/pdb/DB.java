@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tz.core.logger.Log;
 import tz.pdb.api.DBDriver;
 import tz.pdb.api.base.DBExtendData;
 import tz.pdb.api.base.DBStatement;
@@ -18,6 +17,7 @@ import tz.pdb.api.statements.DBOperation;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.api.statements.DBUpdate;
+import tz.sys.SysUtil;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class DB {
 				data.loaded(true);
 				DBExtender extender = DB.extender(data.extend());
 				if (extender == null) {
-					Log.fatal("DB", "The extender [0] is not defined!", data.extend());
+					SysUtil.error("The extender [0] is not defined!", data.extend());
 				} else {
 					extender.extend(statement.type(), statement, data);
 				}
@@ -78,7 +78,7 @@ public class DB {
 		try {
 			return DB.dbs.get(name);
 		} catch (NullPointerException e) {
-			Log.fatal("DB", "No connection has been established");
+			SysUtil.error("No connection has been established!");
 		}
 		return null;
 	}
@@ -155,7 +155,7 @@ public class DB {
 		try {
 			return DB.get(db).dbDriver();
 		} catch (NullPointerException e) {
-			Log.fatal("DB", "No connection with the name [0] has been established", db);
+			SysUtil.error("No connection with the name [0] has been established!", db);
 		}
 		return null;
 	}

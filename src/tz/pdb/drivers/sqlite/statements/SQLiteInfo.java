@@ -3,11 +3,11 @@ package tz.pdb.drivers.sqlite.statements;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tz.core.logger.Log;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBInfo;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.sys.SysUtil;
 
 public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 	
@@ -15,31 +15,31 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 
 	@Override
 	public DBResult exe() {
-		Log.warning(this.ident(), "Info can not use the exe method");
+		SysUtil.warn("Info can not use the exe method!");
 		return null;
 	}
 	
 	@Override
 	public String built() {
-		Log.warning(this.ident(), "Info can not use the built method");
+		SysUtil.warn("Info can not use the built method!");
 		return null;
 	}
 	
 	@Override
 	public String statement() {
-		Log.warning(this.ident(), "Info can not use the statement method");
+		SysUtil.warn("Info can not use the statement method!");
 		return null;
 	}
 	
 	@Override
 	public DBStatement placeholder(String placeholder, String value) {
-		Log.warning(this.ident(), "Info can not use the placeholder method");
+		SysUtil.warn("Info can not use the placeholder method!");
 		return this;
 	}
 	
 	@Override
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite", "Info");
+		return "DB::Driver::SQLite::Info";
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 					this.tables = new String[result.getInt(1)];
 				}
 			} catch (SQLException e) {
-				Log.fatal(this.ident(), "Can not read the count of tables.");
+				SysUtil.error("Can not read the count of tables!");
 			}
 			
 			query.query("SELECT name AS name FROM sqlite_master WHERE type = 'table'");
@@ -67,7 +67,7 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 					this.tables[i++] = result.getString(1);
 				}
 			} catch (SQLException e) {
-				Log.fatal(this.ident(), "Can not read the tables.");
+				SysUtil.error("Can not read the tables!");
 			}
 		}
 		return this.tables;
@@ -75,7 +75,7 @@ public class SQLiteInfo extends SQLiteStatement implements DBInfo {
 
 	@Override
 	public String autoIncrement() {
-		Log.warning(this.ident(), "SQLite have not a autoincrements state!");
+		SysUtil.warn("SQLite have not a autoincrements state!");
 		return "";
 	}
 

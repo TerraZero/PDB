@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import tz.core.logger.Log;
 import tz.pdb.api.fields.DBDefineField;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.drivers.sqlite.fields.SQLiteDefineField;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.sys.SysUtil;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 	 */
 	@Override
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite", "Table");
+		return "DB::Driver::SQLite::Table";
 	}
 
 	/* 
@@ -135,7 +135,7 @@ public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not execute the table statement.");
+			SysUtil.error("Can not execute the table statement.");
 			return -1;
 		}
 	}
@@ -146,7 +146,7 @@ public class SQLiteCreate extends SQLiteStatement implements DBCreate {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not execute the table statement.");
+			SysUtil.error("Can not execute the table statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}

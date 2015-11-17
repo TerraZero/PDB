@@ -2,40 +2,40 @@ package tz.pdb.drivers.sqlite.statements;
 
 import java.sql.SQLException;
 
-import tz.core.logger.Log;
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBOperation;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.sys.SysUtil;
 
 public class SQLiteOperation extends SQLiteStatement implements DBOperation {
 
 	@Override
 	public DBResult exe() {
-		Log.warning(this.ident(), "Operation can not use the exe method");
+		SysUtil.warn("Operation can not use the exe method!");
 		return null;
 	}
 	
 	@Override
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite", "Operation");
+		return "DB:Driver::SQLite::Operation";
 	}
 
 	@Override
 	public String built() {
-		Log.warning(this.ident(), "Operation can not use the built method");
+		SysUtil.warn("Operation can not use the built method");
 		return null;
 	}
 	
 	@Override
 	public String statement() {
-		Log.warning(this.ident(), "Operation can not use the statement method");
+		SysUtil.warn("Operation can not use the statement method");
 		return null;
 	}
 
 	@Override
 	public DBStatement placeholder(String placeholder, String value) {
-		Log.warning(this.ident(), "Operation can not use the placeholder method");
+		SysUtil.warn("Operation can not use the placeholder method");
 		return this;
 	}
 
@@ -45,7 +45,7 @@ public class SQLiteOperation extends SQLiteStatement implements DBOperation {
 		try {
 			return this.driver().execute().executeUpdate(query);
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not truncate the table [0].", table);
+			SysUtil.error("Can not truncate the table [0].", table);
 			return -1;
 		}
 	}
@@ -56,7 +56,7 @@ public class SQLiteOperation extends SQLiteStatement implements DBOperation {
 		try {
 			return this.driver().execute().executeUpdate(query);
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not drop the table [0].", table);
+			SysUtil.error("Can not drop the table [0].", table);
 			return -1;
 		}
 	}

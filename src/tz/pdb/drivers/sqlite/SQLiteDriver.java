@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import tz.core.logger.Log;
 import tz.pdb.api.DBDriver;
 import tz.pdb.api.fields.DBDefineField;
 import tz.pdb.api.functions.DBResult;
@@ -27,6 +26,7 @@ import tz.pdb.drivers.sqlite.statements.SQLiteQuery;
 import tz.pdb.drivers.sqlite.statements.SQLiteSelect;
 import tz.pdb.drivers.sqlite.statements.SQLiteCreate;
 import tz.pdb.drivers.sqlite.statements.SQLiteUpdate;
+import tz.sys.SysUtil;
 
 /**
  * 
@@ -59,13 +59,13 @@ public class SQLiteDriver implements DBDriver {
 		try {
 			if (prop == null) {
 				this.connection = DriverManager.getConnection("jdbc:sqlite:" + host);
-				Log.success(this.ident(), "Connect to database via host [0] successfully", host);
+				SysUtil.log("Connect to database via host [0] successfully", host);
 			} else {
 				this.connection = DriverManager.getConnection("jdbc:sqlite:" + host, prop);
-				Log.success(this.ident(), "Connect to database via host [0] and user [1] successfully", host, user);
+				SysUtil.log("Connect to database via host [0] and user [1] successfully", host, user);
 			}
 		} catch (Exception e) {
-			Log.critical(this.ident(), "Can not connect to host [0] with the user [1]", host, user);
+			SysUtil.error("Can not connect to host [0] with the user [1]", host, user);
 			return false;
 		}
 		return true;
@@ -82,7 +82,7 @@ public class SQLiteDriver implements DBDriver {
 	}
 	
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite");
+		return "DB::Driver::SQLite";
 	}
 
 	/* 
@@ -128,7 +128,7 @@ public class SQLiteDriver implements DBDriver {
 		try {
 			return this.connection.createStatement();
 		} catch (SQLException e) {
-			Log.critical(this.ident(), "Can not create a SQLite statement interface");
+			SysUtil.error("Can not create a SQLite statement interface!");
 			return null;
 		}
 	}
@@ -220,7 +220,7 @@ public class SQLiteDriver implements DBDriver {
 				case DBCreate.TYPE :
 					return new DBResult(statement, type, this.execute().executeUpdate(statement));
 				default :
-					Log.warning(this.ident(), "The statment type [0] is not supported.", type);
+					SysUtil.warn("The statment type [0] is not supported.", type);
 			}
 		} catch (SQLException e) {
 			return new DBResult(statement, type, e);

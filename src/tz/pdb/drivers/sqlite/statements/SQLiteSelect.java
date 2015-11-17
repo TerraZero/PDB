@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import tz.core.logger.Log;
 import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.fields.DBField;
 import tz.pdb.api.fields.DBJoin;
@@ -20,6 +19,7 @@ import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
 import tz.pdb.drivers.sqlite.fields.SQLiteField;
 import tz.pdb.drivers.sqlite.fields.SQLiteJoin;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.sys.SysUtil;
 
 /**
  * 
@@ -106,7 +106,7 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	 */
 	@Override
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite", "Select");
+		return "DB::Driver::SQLite::Select";
 	}
 
 	/* 
@@ -190,7 +190,7 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeQuery(statement));
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not execute the select statement.");
+			SysUtil.error("Can not execute the select statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}
@@ -200,8 +200,7 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 		try {
 			return this.driver().execute().executeQuery(this.statement());
 		} catch (SQLException e) {
-			System.out.println(e);
-			Log.fatal(this.ident(), "Can not execute the select statement.");
+			SysUtil.error("Can not execute the select statement.");
 			return null;
 		}
 	}
@@ -209,12 +208,12 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	@Override
 	public DBSelect field(String table, String field, String alias, String function) {
 		if (this.selectAll) {
-			Log.warning(this.ident(), "Add a field has no use because all are selected. Field [0] will be add but ignored by building.", table + "." + field);
+			SysUtil.warn("Add a field has no use because all are selected. Field [0] will be add but ignored by building.", table + "." + field);
 		}
 		SQLiteField addfield = new SQLiteField(table, field, alias, function);
 		DBField f = null;
 		if ((f = this.fields.put(alias, addfield)) != null) {
-			Log.warning(this.ident(), "Duplicate field alias [0] for field [1] and field [2]", addfield.alias(), f.table() + "." + f.field(), addfield.table() + "." + addfield.field());
+			SysUtil.warn("Duplicate field alias [0] for field [1] and field [2]!", addfield.alias(), f.table() + "." + f.field(), addfield.table() + "." + addfield.field());
 		}
 		return this;
 	}
@@ -222,12 +221,12 @@ public class SQLiteSelect extends SQLiteStatement implements DBSelect {
 	@Override
 	public DBSelect fields(DBField... fields) {
 		if (this.selectAll) {
-			Log.warning(this.ident(), "Add a field has no use because all are selected. [0] fields will be add but ignored by building.", fields.length + "");
+			SysUtil.error("Add a field has no use because all are selected. [0] fields will be add but ignored by building.", fields.length + "");
 		}
 		DBField f = null;
 		for (DBField field : fields) {
 			if ((f = this.fields.put(field.alias(), field)) != null) {
-				Log.warning(this.ident(), "Duplicate field alias [0] for field [1] and field [2]", field.alias(), f.table() + "." + f.field(), field.table() + "." + field.field());
+				SysUtil.warn("Duplicate field alias [0] for field [1] and field [2]!", field.alias(), f.table() + "." + f.field(), field.table() + "." + field.field());
 			}
 		}
 		return this;

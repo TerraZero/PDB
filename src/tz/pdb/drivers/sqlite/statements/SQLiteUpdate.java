@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tz.core.logger.Log;
 import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.functions.DBPlaceholder;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBUpdate;
 import tz.pdb.drivers.sqlite.fields.SQLiteCondition;
 import tz.pdb.drivers.sqlite.fields.SQLiteStatement;
+import tz.sys.SysUtil;
 
 /**
  * 
@@ -52,7 +52,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not execute the update statement.");
+			SysUtil.error("Can not execute the update statement.");
 			return -1;
 		}
 	}
@@ -62,7 +62,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 	 */
 	@Override
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite", "Update");
+		return "DB:Driver::SQLite::Update";
 	}
 	
 	/* 
@@ -74,7 +74,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
 		} catch (SQLException e) {
-			Log.fatal(this.ident(), "Can not execute the update statement.");
+			SysUtil.error("Can not execute the update statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}
@@ -87,7 +87,7 @@ public class SQLiteUpdate extends SQLiteStatement implements DBUpdate {
 		StringBuilder sb = new StringBuilder("UPDATE ");
 		sb.append(this.table).append(" SET ");
 		this.values.forEach((col, value) -> {
-			sb.append(col).append(" = ").append(DBPlaceholder.renderValue(value, this.ident()));
+			sb.append(col).append(" = ").append(DBPlaceholder.renderValue(value));
 		});
 		
 		if (this.conditions.size() > 0) {

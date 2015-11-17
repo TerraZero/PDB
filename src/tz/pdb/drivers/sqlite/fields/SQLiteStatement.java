@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tz.core.logger.Log;
 import tz.pdb.DB;
 import tz.pdb.api.DBDriver;
 import tz.pdb.api.base.DBExtendData;
@@ -55,7 +54,7 @@ public abstract class SQLiteStatement implements DBStatement {
 	 */
 	@Override
 	public String ident() {
-		return Log.ident("DB", "Driver", "SQLite", "Statement");
+		return "DB::Driver::SQLite::Statement";
 	}
 	
 	/* 

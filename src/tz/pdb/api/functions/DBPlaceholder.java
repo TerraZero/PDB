@@ -3,7 +3,7 @@ package tz.pdb.api.functions;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import tz.core.logger.Log;
+import tz.sys.SysUtil;
 
 /**
  * 
@@ -38,11 +38,11 @@ public class DBPlaceholder {
 						int test = Integer.parseInt(entry.getValue());
 						value = test + "";
 					} catch (NumberFormatException e) {
-						Log.warning(ident + Log.IDENT_SEPERATOR + "SQLPlaceholder", "Value [0] can not be converted into integer.", entry.getValue());
+						SysUtil.warn("Value [0] can not be converted into integer.", entry.getValue());
 					}
 					break;
 				default :
-					Log.warning(ident + Log.IDENT_SEPERATOR + "SQLPlaceholder", "Placeholder [0] have an unknown prefix [1].", entry.getKey(), prefix + "");
+					SysUtil.warn("Placeholder [0] have an unknown prefix [1].", entry.getKey(), prefix + "");
 					break;
 			}
 			if (value != null) {
@@ -52,11 +52,11 @@ public class DBPlaceholder {
 		return subject;
 	}
 	
-	public static String renderValue(String value, String ident) {
-		return DBPlaceholder.renderValue(value, ident, false);
+	public static String renderValue(String value) {
+		return DBPlaceholder.renderValue(value, false);
 	}
 	
-	public static String renderValue(String value, String ident, boolean strict) {
+	public static String renderValue(String value, boolean strict) {
 		char prefix = value.charAt(0);
 		
 		switch (prefix) {
@@ -69,7 +69,7 @@ public class DBPlaceholder {
 					int test = Integer.parseInt(value.substring(1));
 					return test + "";
 				} catch (NumberFormatException e) {
-					Log.warning(ident + Log.IDENT_SEPERATOR + "SQLPlaceholder", "Value [0] can not be converted into integer.", value);
+					SysUtil.warn("Value [0] can not be converted into integer.", value);
 				}
 			default : 
 				if (!strict) {
@@ -77,7 +77,7 @@ public class DBPlaceholder {
 				}
 				break;
 		}
-		Log.warning(ident + Log.IDENT_SEPERATOR + "SQLPlaceholder", "Value [0] have an unknown prefix [1].", value, prefix + "");
+		SysUtil.warn("Value [0] have an unknown prefix [1].", value, prefix + "");
 		return null;
 	}
 	

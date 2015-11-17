@@ -1,6 +1,6 @@
 package tz.pdb.api.base;
 
-import tz.bases.Extendable;
+import tz.sys.api.Extendable;
 
 /**
  * 
