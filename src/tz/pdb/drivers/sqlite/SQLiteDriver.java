@@ -62,10 +62,10 @@ public class SQLiteDriver implements DBDriver {
 				SysUtil.log("Connect to database via host [0] successfully", host);
 			} else {
 				this.connection = DriverManager.getConnection("jdbc:sqlite:" + host, prop);
-				SysUtil.log("Connect to database via host [0] and user [1] successfully", host, user);
+				SysUtil.log("Connect to database via host [0] and user [1] successfully!", host, user);
 			}
 		} catch (Exception e) {
-			SysUtil.error("Can not connect to host [0] with the user [1]", host, user);
+			SysUtil.error("Can not connect to host [0] with the user [1]!", host, user);
 			return false;
 		}
 		return true;
