@@ -1,4 +1,4 @@
-package tz.pdb.drivers.def.statements;
+package tz.pdb.drivers.sql.statements;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,10 +15,10 @@ import tz.pdb.api.fields.DBJoin;
 import tz.pdb.api.fields.DBOrder;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBSelect;
-import tz.pdb.drivers.def.fields.SQLDefCondition;
-import tz.pdb.drivers.def.fields.SQLDefField;
-import tz.pdb.drivers.def.fields.SQLDefJoin;
-import tz.pdb.drivers.def.fields.SQLDefStatement;
+import tz.pdb.drivers.sql.fields.SQLCondition;
+import tz.pdb.drivers.sql.fields.SQLField;
+import tz.pdb.drivers.sql.fields.SQLJoin;
+import tz.pdb.drivers.sql.fields.SQLStatement;
 import tz.sys.SysUtil;
 
 /**
@@ -31,29 +31,29 @@ import tz.sys.SysUtil;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLDefSelect extends SQLDefStatement implements DBSelect {
+public class SQLSelect extends SQLStatement implements DBSelect {
 	
 	private String table;
 	private String alias;
-	private List<SQLDefJoin> joins;
+	private List<SQLJoin> joins;
 	private Map<String, DBField> fields;
 	private boolean selectAll;
 	private String selectAllFunction;
-	private List<SQLDefCondition> conditions;
+	private List<SQLCondition> conditions;
 	
-	public SQLDefSelect() {
+	public SQLSelect() {
 		this.init();
 	}
 
-	public SQLDefSelect(String from, String alias) {
+	public SQLSelect(String from, String alias) {
 		this.init();
 		this.from(from, alias);
 	}
 	
 	protected void init() {
-		this.joins = new ArrayList<SQLDefJoin>();
+		this.joins = new ArrayList<SQLJoin>();
 		this.fields = new HashMap<String, DBField>();
-		this.conditions = new ArrayList<SQLDefCondition>();
+		this.conditions = new ArrayList<SQLCondition>();
 	}
 
 	/* 
@@ -114,7 +114,7 @@ public class SQLDefSelect extends SQLDefStatement implements DBSelect {
 	 */
 	@Override
 	public DBJoin join(String type, String table, String alias, String one, String two, String equal) {
-		SQLDefJoin join = new SQLDefJoin(one, two, equal, null);
+		SQLJoin join = new SQLJoin(one, two, equal, null);
 		this.joins.add(join);
 		return join.head(type, table, alias);
 	}
@@ -124,7 +124,7 @@ public class SQLDefSelect extends SQLDefStatement implements DBSelect {
 	 */
 	@Override
 	public DBCondition where(String one, String two, String equal) {
-		SQLDefCondition condition = new SQLDefCondition(one, two, equal, null);
+		SQLCondition condition = new SQLCondition(one, two, equal, null);
 		this.conditions.add(condition);
 		return condition;
 	}
@@ -151,7 +151,7 @@ public class SQLDefSelect extends SQLDefStatement implements DBSelect {
 	@Override
 	public boolean hasTable(String table) {
 		if (table.equals(this.table)) return true;
-		Iterator<SQLDefJoin> i = this.joins.iterator();
+		Iterator<SQLJoin> i = this.joins.iterator();
 		while (i.hasNext()) {
 			if (i.next().table().equals(table)) return true;
 		}
@@ -164,9 +164,9 @@ public class SQLDefSelect extends SQLDefStatement implements DBSelect {
 	@Override
 	public String table(String table) {
 		if (table.equals(this.table)) return this.alias;
-		Iterator<SQLDefJoin> i = this.joins.iterator();
+		Iterator<SQLJoin> i = this.joins.iterator();
 		while (i.hasNext()) {
-			SQLDefJoin join = i.next();
+			SQLJoin join = i.next();
 			if (join.table().equals(table)) return join.alias();
 		}
 		return null;
@@ -191,6 +191,7 @@ public class SQLDefSelect extends SQLDefStatement implements DBSelect {
 			return new DBResult(statement, this.type(), this.driver().execute().executeQuery(statement));
 		} catch (SQLException e) {
 			SysUtil.error("Can not execute the select statement.");
+			SysUtil.exception(e);
 			return new DBResult(statement, this.type(), e);
 		}
 	}
@@ -210,7 +211,7 @@ public class SQLDefSelect extends SQLDefStatement implements DBSelect {
 		if (this.selectAll) {
 			SysUtil.warn("Add a field has no use because all are selected. Field [0] will be add but ignored by building.", table + "." + field);
 		}
-		SQLDefField addfield = new SQLDefField(table, field, alias, function);
+		SQLField addfield = new SQLField(table, field, alias, function);
 		DBField f = null;
 		if ((f = this.fields.put(alias, addfield)) != null) {
 			SysUtil.warn("Duplicate field alias [0] for field [1] and field [2]!", addfield.alias(), f.table() + "." + f.field(), addfield.table() + "." + addfield.field());
@@ -270,9 +271,9 @@ public class SQLDefSelect extends SQLDefStatement implements DBSelect {
 		Map<String, String> tables = new HashMap<String, String>();
 		
 		tables.put(this.table, this.alias);
-		Iterator<SQLDefJoin> i = this.joins.iterator();
+		Iterator<SQLJoin> i = this.joins.iterator();
 		while (i.hasNext()) {
-			SQLDefJoin join = i.next();
+			SQLJoin join = i.next();
 			tables.put(join.table(), join.alias());
 		}
 		return tables;

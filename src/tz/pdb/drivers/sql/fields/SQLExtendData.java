@@ -1,4 +1,4 @@
-package tz.pdb.drivers.def.fields;
+package tz.pdb.drivers.sql.fields;
 
 import tz.pdb.api.base.DBExtendData;
 
@@ -12,16 +12,16 @@ import tz.pdb.api.base.DBExtendData;
  * @identifier tz.pdb.drivers.sqlite.fields
  *
  */
-public class SQLDefExtendData implements DBExtendData {
+public class SQLExtendData implements DBExtendData {
 
 	private boolean loaded;
 	private String extend;
 	
-	public SQLDefExtendData() {
+	public SQLExtendData() {
 		
 	}
 	
-	public SQLDefExtendData(String extend) {
+	public SQLExtendData(String extend) {
 		this.extend = extend;
 	}
 

@@ -3,7 +3,7 @@ package tz.pdb.drivers.mysql;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import tz.pdb.drivers.def.SQLDefDriver;
+import tz.pdb.drivers.sql.SQLDriver;
 import tz.sys.SysUtil;
 
 /**
@@ -16,7 +16,7 @@ import tz.sys.SysUtil;
  * @identifier TZ.sql.driver.mysql
  *
  */
-public class MySQLDriver extends SQLDefDriver {
+public class MySQLDriver extends SQLDriver {
 
 	public String ident() {
 		return "DB::Driver::Def::MySQL";

@@ -1,21 +1,21 @@
-package tz.pdb.drivers.def.statements;
+package tz.pdb.drivers.sql.statements;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBQuery;
-import tz.pdb.drivers.def.fields.SQLDefStatement;
+import tz.pdb.drivers.sql.fields.SQLStatement;
 import tz.sys.SysUtil;
 
-public class SQLDefQuery extends SQLDefStatement implements DBQuery {
+public class SQLQuery extends SQLStatement implements DBQuery {
 	
 	private String query;
 	
-	public SQLDefQuery() {
+	public SQLQuery() {
 	}
 	
-	public SQLDefQuery(String query) {
+	public SQLQuery(String query) {
 		this.query = query;
 	}
 

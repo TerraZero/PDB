@@ -4,10 +4,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import tz.pdb.drivers.def.SQLDefDriver;
+import tz.pdb.drivers.sql.SQLDriver;
 import tz.sys.SysUtil;
 
-public class SQLiteDriver extends SQLDefDriver {
+public class SQLiteDriver extends SQLDriver {
 
 	public String ident() {
 		return "DB::Driver::Def::SQLite";

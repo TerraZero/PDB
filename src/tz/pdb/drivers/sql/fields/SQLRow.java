@@ -1,14 +1,14 @@
-package tz.pdb.drivers.def.fields;
+package tz.pdb.drivers.sql.fields;
 
 import tz.pdb.api.fields.DBRow;
 import tz.pdb.api.functions.DBPlaceholder;
 
-public class SQLDefRow implements DBRow {
+public class SQLRow implements DBRow {
 	
 	private String[] cols;
 	private String[] values;
 	
-	public SQLDefRow(String... values) {
+	public SQLRow(String... values) {
 		this.values = values;
 	}
 

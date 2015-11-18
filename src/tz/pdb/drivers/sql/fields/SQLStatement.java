@@ -1,4 +1,4 @@
-package tz.pdb.drivers.def.fields;
+package tz.pdb.drivers.sql.fields;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,13 +21,13 @@ import tz.pdb.api.functions.DBPlaceholder;
  * @identifier tz.pdb.api.statments
  *
  */
-public abstract class SQLDefStatement implements DBStatement {
+public abstract class SQLStatement implements DBStatement {
 	
 	private DBDriver driver;
 	private Map<String, String> placeholders;
 	private List<DBExtendData> extend;
 	
-	public SQLDefStatement() {
+	public SQLStatement() {
 		this.placeholders = new HashMap<String, String>();
 		this.extend = new ArrayList<DBExtendData>();
 	}
@@ -77,7 +77,7 @@ public abstract class SQLDefStatement implements DBStatement {
 	@Override
 	public DBStatement extend(String extend, DBExtendData data) {
 		if (data == null) {
-			data = new SQLDefExtendData();
+			data = new SQLExtendData();
 		}
 		this.extend.add(data.extend(extend));
 		return this;

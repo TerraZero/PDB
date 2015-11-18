@@ -1,19 +1,19 @@
-package tz.pdb.drivers.def.fields;
+package tz.pdb.drivers.sql.fields;
 
 import tz.pdb.api.fields.DBField;
 
-public class SQLDefField implements DBField {
+public class SQLField implements DBField {
 	
 	private String table;
 	private String field;
 	private String alias;
 	private String function;
 	
-	public SQLDefField() {
+	public SQLField() {
 		
 	}
 	
-	public SQLDefField(String table, String field, String alias, String function) {
+	public SQLField(String table, String field, String alias, String function) {
 		this.table = table;
 		this.field = field;
 		this.alias = alias;

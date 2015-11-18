@@ -1,4 +1,4 @@
-package tz.pdb.drivers.def.statements;
+package tz.pdb.drivers.sql.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import tz.pdb.api.fields.DBCondition;
 import tz.pdb.api.functions.DBPlaceholder;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBUpdate;
-import tz.pdb.drivers.def.fields.SQLDefCondition;
-import tz.pdb.drivers.def.fields.SQLDefStatement;
+import tz.pdb.drivers.sql.fields.SQLCondition;
+import tz.pdb.drivers.sql.fields.SQLStatement;
 import tz.sys.SysUtil;
 
 /**
@@ -24,23 +24,23 @@ import tz.sys.SysUtil;
  * @identifier tz.pdb.drivers.sqlite
  *
  */
-public class SQLDefUpdate extends SQLDefStatement implements DBUpdate {
+public class SQLUpdate extends SQLStatement implements DBUpdate {
 	
 	private String table;
-	private List<SQLDefCondition> conditions;
+	private List<SQLCondition> conditions;
 	private Map<String, String> values;
 	
-	public SQLDefUpdate() {
+	public SQLUpdate() {
 		this.init();
 	}
 	
-	public SQLDefUpdate(String table) {
+	public SQLUpdate(String table) {
 		this.init(); 
 		this.table(table);
 	}
 	
 	protected void init() {
-		this.conditions = new ArrayList<SQLDefCondition>();
+		this.conditions = new ArrayList<SQLCondition>();
 		this.values = new HashMap<String, String>();
 	}
 
@@ -148,7 +148,7 @@ public class SQLDefUpdate extends SQLDefStatement implements DBUpdate {
 	 */
 	@Override
 	public DBCondition where(String one, String two, String equal) {
-		SQLDefCondition condition = new SQLDefCondition(one, two, equal, null);
+		SQLCondition condition = new SQLCondition(one, two, equal, null);
 		this.conditions.add(condition);
 		return condition;
 	}

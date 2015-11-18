@@ -1,14 +1,14 @@
-package tz.pdb.drivers.def.statements;
+package tz.pdb.drivers.sql.statements;
 
 import java.sql.SQLException;
 
 import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBOperation;
-import tz.pdb.drivers.def.fields.SQLDefStatement;
+import tz.pdb.drivers.sql.fields.SQLStatement;
 import tz.sys.SysUtil;
 
-public class SQLDefOperation extends SQLDefStatement implements DBOperation {
+public class SQLOperation extends SQLStatement implements DBOperation {
 
 	@Override
 	public DBResult exe() {

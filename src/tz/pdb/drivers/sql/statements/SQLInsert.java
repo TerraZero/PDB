@@ -1,4 +1,4 @@
-package tz.pdb.drivers.def.statements;
+package tz.pdb.drivers.sql.statements;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,21 +7,21 @@ import java.util.List;
 import tz.pdb.api.fields.DBRow;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBInsert;
-import tz.pdb.drivers.def.fields.SQLDefRow;
-import tz.pdb.drivers.def.fields.SQLDefStatement;
+import tz.pdb.drivers.sql.fields.SQLRow;
+import tz.pdb.drivers.sql.fields.SQLStatement;
 import tz.sys.SysUtil;
 
-public class SQLDefInsert extends SQLDefStatement implements DBInsert {
+public class SQLInsert extends SQLStatement implements DBInsert {
 	
 	private String table;
 	private String[] cols;
 	private List<DBRow> rows;
 	
-	public SQLDefInsert() {
+	public SQLInsert() {
 		this.init();
 	}
 	
-	public SQLDefInsert(String table) {
+	public SQLInsert(String table) {
 		this.init();
 		this.table(table);
 	}
@@ -72,7 +72,7 @@ public class SQLDefInsert extends SQLDefStatement implements DBInsert {
 
 	@Override
 	public DBInsert row(String... columns) {
-		this.rows.add(new SQLDefRow(columns));
+		this.rows.add(new SQLRow(columns));
 		return this;
 	}
 

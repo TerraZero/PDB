@@ -1,4 +1,4 @@
-package tz.pdb.drivers.def.fields;
+package tz.pdb.drivers.sql.fields;
 
 import tz.pdb.api.fields.DBDefineField;
 
@@ -12,24 +12,24 @@ import tz.pdb.api.fields.DBDefineField;
  * @identifier tz.pdb.drivers.sqlite.statements
  *
  */
-public class SQLDefDefineField implements DBDefineField {
+public class SQLDefineField implements DBDefineField {
 	
 	private String name;
 	private String type;
 	private int size;
 	private String[] additionals;
 	
-	public SQLDefDefineField() {
+	public SQLDefineField() {
 		
 	}
 	
-	public SQLDefDefineField(String name, String type, String[] additionals) {
+	public SQLDefineField(String name, String type, String[] additionals) {
 		this.name = name;
 		this.type = type;
 		this.additionals = additionals;
 	}
 	
-	public SQLDefDefineField(String name, String type, int size, String[] additionals) {
+	public SQLDefineField(String name, String type, int size, String[] additionals) {
 		this.name = name;
 		this.type = type;
 		this.size = size;

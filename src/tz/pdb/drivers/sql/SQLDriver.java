@@ -1,4 +1,4 @@
-package tz.pdb.drivers.def;
+package tz.pdb.drivers.sql;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,15 +15,15 @@ import tz.pdb.api.statements.DBOperation;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.api.statements.DBUpdate;
-import tz.pdb.drivers.def.fields.SQLDefDefineField;
-import tz.pdb.drivers.def.statements.SQLDefCreate;
-import tz.pdb.drivers.def.statements.SQLDefDelete;
-import tz.pdb.drivers.def.statements.SQLDefInfo;
-import tz.pdb.drivers.def.statements.SQLDefInsert;
-import tz.pdb.drivers.def.statements.SQLDefOperation;
-import tz.pdb.drivers.def.statements.SQLDefQuery;
-import tz.pdb.drivers.def.statements.SQLDefSelect;
-import tz.pdb.drivers.def.statements.SQLDefUpdate;
+import tz.pdb.drivers.sql.fields.SQLDefineField;
+import tz.pdb.drivers.sql.statements.SQLCreate;
+import tz.pdb.drivers.sql.statements.SQLDelete;
+import tz.pdb.drivers.sql.statements.SQLInfo;
+import tz.pdb.drivers.sql.statements.SQLInsert;
+import tz.pdb.drivers.sql.statements.SQLOperation;
+import tz.pdb.drivers.sql.statements.SQLQuery;
+import tz.pdb.drivers.sql.statements.SQLSelect;
+import tz.pdb.drivers.sql.statements.SQLUpdate;
 import tz.sys.SysUtil;
 
 /**
@@ -36,7 +36,7 @@ import tz.sys.SysUtil;
  * @identifier TZ.sql.driver.sqlite
  *
  */
-public class SQLDefDriver implements DBDriver {
+public class SQLDriver implements DBDriver {
 	
 	protected Connection connection;
 	protected DBInfo info;
@@ -55,7 +55,7 @@ public class SQLDefDriver implements DBDriver {
 	 */
 	@Override
 	public DBSelect select() {
-		DBSelect select = new SQLDefSelect();
+		DBSelect select = new SQLSelect();
 		select.driver(this);
 		return select;
 	}
@@ -69,35 +69,35 @@ public class SQLDefDriver implements DBDriver {
 	 */
 	@Override
 	public DBCreate create() {
-		DBCreate table = new SQLDefCreate();
+		DBCreate table = new SQLCreate();
 		table.driver(this);
 		return table;
 	}
 
 	@Override
 	public DBSelect select(String from, String alias) {
-		DBSelect select = new SQLDefSelect(from, alias);
+		DBSelect select = new SQLSelect(from, alias);
 		select.driver(this);
 		return select;
 	}
 
 	@Override
 	public DBCreate create(String table) {
-		DBCreate create = new SQLDefCreate(table);
+		DBCreate create = new SQLCreate(table);
 		create.driver(this);
 		return create;
 	}
 
 	@Override
 	public DBInsert insert() {
-		DBInsert insert = new SQLDefInsert();
+		DBInsert insert = new SQLInsert();
 		insert.driver(this);
 		return insert;
 	}
 
 	@Override
 	public DBInsert insert(String table) {
-		DBInsert insert = new SQLDefInsert(table);
+		DBInsert insert = new SQLInsert(table);
 		insert.driver(this);
 		return insert;
 	}
@@ -117,7 +117,7 @@ public class SQLDefDriver implements DBDriver {
 	 */
 	@Override
 	public DBUpdate update() {
-		DBUpdate update = new SQLDefUpdate();
+		DBUpdate update = new SQLUpdate();
 		update.driver(this);
 		return update;
 	}
@@ -127,7 +127,7 @@ public class SQLDefDriver implements DBDriver {
 	 */
 	@Override
 	public DBUpdate update(String table) {
-		DBUpdate update = new SQLDefUpdate(table);
+		DBUpdate update = new SQLUpdate(table);
 		update.driver(this);
 		return update;
 	}
@@ -137,7 +137,7 @@ public class SQLDefDriver implements DBDriver {
 	 */
 	@Override
 	public DBDelete delete() {
-		DBDelete delete = new SQLDefDelete();
+		DBDelete delete = new SQLDelete();
 		delete.driver(this);
 		return delete;
 	}
@@ -147,28 +147,28 @@ public class SQLDefDriver implements DBDriver {
 	 */
 	@Override
 	public DBDelete delete(String table) {
-		DBDelete delete = new SQLDefDelete(table);
+		DBDelete delete = new SQLDelete(table);
 		delete.driver(this);
 		return delete;
 	}
 
 	@Override
 	public DBOperation operation() {
-		DBOperation operation = new SQLDefOperation();
+		DBOperation operation = new SQLOperation();
 		operation.driver(this);
 		return operation;
 	}
 
 	@Override
 	public DBQuery query() {
-		DBQuery query = new SQLDefQuery();
+		DBQuery query = new SQLQuery();
 		query.driver(this);
 		return query;
 	}
 
 	@Override
 	public DBQuery query(String query) {
-		DBQuery dbquery = new SQLDefQuery(query);
+		DBQuery dbquery = new SQLQuery(query);
 		dbquery.driver(this);
 		return dbquery;
 	}
@@ -176,7 +176,7 @@ public class SQLDefDriver implements DBDriver {
 	@Override
 	public DBInfo info() {
 		if (this.info == null) {
-			this.info = new SQLDefInfo();
+			this.info = new SQLInfo();
 			this.info.driver(this);
 		}
 		return this.info;
@@ -184,7 +184,7 @@ public class SQLDefDriver implements DBDriver {
 
 	@Override
 	public DBDefineField defineField() {
-		return new SQLDefDefineField();
+		return new SQLDefineField();
 	}
 
 	@Override
