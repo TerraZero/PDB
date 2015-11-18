@@ -19,7 +19,7 @@ import tz.pdb.drivers.sql.fields.SQLCondition;
 import tz.pdb.drivers.sql.fields.SQLField;
 import tz.pdb.drivers.sql.fields.SQLJoin;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 /**
  * 
@@ -190,8 +190,8 @@ public class SQLSelect extends SQLStatement implements DBSelect {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeQuery(statement));
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the select statement.");
-			SysUtil.exception(e);
+			Sys.error("Can not execute the select statement.");
+			Sys.exception(e);
 			return new DBResult(statement, this.type(), e);
 		}
 	}
@@ -201,7 +201,7 @@ public class SQLSelect extends SQLStatement implements DBSelect {
 		try {
 			return this.driver().execute().executeQuery(this.statement());
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the select statement.");
+			Sys.error("Can not execute the select statement.");
 			return null;
 		}
 	}
@@ -209,12 +209,12 @@ public class SQLSelect extends SQLStatement implements DBSelect {
 	@Override
 	public DBSelect field(String table, String field, String alias, String function) {
 		if (this.selectAll) {
-			SysUtil.warn("Add a field has no use because all are selected. Field [0] will be add but ignored by building.", table + "." + field);
+			Sys.warn("Add a field has no use because all are selected. Field [0] will be add but ignored by building.", table + "." + field);
 		}
 		SQLField addfield = new SQLField(table, field, alias, function);
 		DBField f = null;
 		if ((f = this.fields.put(alias, addfield)) != null) {
-			SysUtil.warn("Duplicate field alias [0] for field [1] and field [2]!", addfield.alias(), f.table() + "." + f.field(), addfield.table() + "." + addfield.field());
+			Sys.warn("Duplicate field alias [0] for field [1] and field [2]!", addfield.alias(), f.table() + "." + f.field(), addfield.table() + "." + addfield.field());
 		}
 		return this;
 	}
@@ -222,12 +222,12 @@ public class SQLSelect extends SQLStatement implements DBSelect {
 	@Override
 	public DBSelect fields(DBField... fields) {
 		if (this.selectAll) {
-			SysUtil.error("Add a field has no use because all are selected. [0] fields will be add but ignored by building.", fields.length + "");
+			Sys.error("Add a field has no use because all are selected. [0] fields will be add but ignored by building.", fields.length + "");
 		}
 		DBField f = null;
 		for (DBField field : fields) {
 			if ((f = this.fields.put(field.alias(), field)) != null) {
-				SysUtil.warn("Duplicate field alias [0] for field [1] and field [2]!", field.alias(), f.table() + "." + f.field(), field.table() + "." + field.field());
+				Sys.warn("Duplicate field alias [0] for field [1] and field [2]!", field.alias(), f.table() + "." + f.field(), field.table() + "." + field.field());
 			}
 		}
 		return this;

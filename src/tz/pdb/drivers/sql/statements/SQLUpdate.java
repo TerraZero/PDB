@@ -12,7 +12,7 @@ import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBUpdate;
 import tz.pdb.drivers.sql.fields.SQLCondition;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 /**
  * 
@@ -52,7 +52,7 @@ public class SQLUpdate extends SQLStatement implements DBUpdate {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the update statement.");
+			Sys.error("Can not execute the update statement.");
 			return -1;
 		}
 	}
@@ -74,7 +74,7 @@ public class SQLUpdate extends SQLStatement implements DBUpdate {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the update statement.");
+			Sys.error("Can not execute the update statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}

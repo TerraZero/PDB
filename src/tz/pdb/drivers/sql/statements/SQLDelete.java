@@ -9,7 +9,7 @@ import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBDelete;
 import tz.pdb.drivers.sql.fields.SQLCondition;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class SQLDelete extends SQLStatement implements DBDelete {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the delete statement.");
+			Sys.error("Can not execute the delete statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}
@@ -79,7 +79,7 @@ public class SQLDelete extends SQLStatement implements DBDelete {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the delete statement.");
+			Sys.error("Can not execute the delete statement.");
 			return -1;
 		}
 	}

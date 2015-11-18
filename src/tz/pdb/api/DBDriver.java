@@ -25,6 +25,8 @@ import tz.pdb.api.statements.DBUpdate;
  */
 public interface DBDriver {
 	
+	public String name();
+	
 	public boolean connect(String host, String user, String pass);
 
 	public DBSelect select();

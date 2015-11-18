@@ -9,7 +9,7 @@ import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBInsert;
 import tz.pdb.drivers.sql.fields.SQLRow;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 public class SQLInsert extends SQLStatement implements DBInsert {
 	
@@ -99,7 +99,7 @@ public class SQLInsert extends SQLStatement implements DBInsert {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			SysUtil.log("Can not execute the insert statement.");
+			Sys.log("Can not execute the insert statement.");
 			return -1;
 		}
 	}
@@ -110,7 +110,7 @@ public class SQLInsert extends SQLStatement implements DBInsert {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
 		} catch (SQLException e) {
-			SysUtil.log("Can not execute the insert statement.");
+			Sys.log("Can not execute the insert statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}

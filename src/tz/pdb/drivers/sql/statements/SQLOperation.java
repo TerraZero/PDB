@@ -6,13 +6,13 @@ import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBOperation;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 public class SQLOperation extends SQLStatement implements DBOperation {
 
 	@Override
 	public DBResult exe() {
-		SysUtil.warn("Operation can not use the exe method!");
+		Sys.warn("Operation can not use the exe method!");
 		return null;
 	}
 	
@@ -23,19 +23,19 @@ public class SQLOperation extends SQLStatement implements DBOperation {
 
 	@Override
 	public String built() {
-		SysUtil.warn("Operation can not use the built method");
+		Sys.warn("Operation can not use the built method");
 		return null;
 	}
 	
 	@Override
 	public String statement() {
-		SysUtil.warn("Operation can not use the statement method");
+		Sys.warn("Operation can not use the statement method");
 		return null;
 	}
 
 	@Override
 	public DBStatement placeholder(String placeholder, String value) {
-		SysUtil.warn("Operation can not use the placeholder method");
+		Sys.warn("Operation can not use the placeholder method");
 		return this;
 	}
 
@@ -45,7 +45,7 @@ public class SQLOperation extends SQLStatement implements DBOperation {
 		try {
 			return this.driver().execute().executeUpdate(query);
 		} catch (SQLException e) {
-			SysUtil.error("Can not truncate the table [0].", table);
+			Sys.error("Can not truncate the table [0].", table);
 			return -1;
 		}
 	}
@@ -56,7 +56,7 @@ public class SQLOperation extends SQLStatement implements DBOperation {
 		try {
 			return this.driver().execute().executeUpdate(query);
 		} catch (SQLException e) {
-			SysUtil.error("Can not drop the table [0].", table);
+			Sys.error("Can not drop the table [0].", table);
 			return -1;
 		}
 	}

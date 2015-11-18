@@ -17,7 +17,8 @@ import tz.pdb.api.statements.DBOperation;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.api.statements.DBSelect;
 import tz.pdb.api.statements.DBUpdate;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
+import tz.sys.reflect.ReflectUtil;
 
 /**
  * 
@@ -38,6 +39,7 @@ public class DB {
 	
 	static {
 		DB.extender = new ArrayList<DBExtender>();
+		ReflectUtil.trigger("DB");
 	}
 	
 	public static void extend(DBStatement statement) {
@@ -46,7 +48,7 @@ public class DB {
 				data.loaded(true);
 				DBExtender extender = DB.extender(data.extend());
 				if (extender == null) {
-					SysUtil.error("The extender [0] is not defined!", data.extend());
+					Sys.error("The extender [0] is not defined!", data.extend());
 				} else {
 					extender.extend(statement.type(), statement, data);
 				}
@@ -78,7 +80,7 @@ public class DB {
 		try {
 			return DB.dbs.get(name);
 		} catch (NullPointerException e) {
-			SysUtil.error("No connection has been established!");
+			Sys.error("No connection has been established!");
 		}
 		return null;
 	}
@@ -155,7 +157,7 @@ public class DB {
 		try {
 			return DB.get(db).dbDriver();
 		} catch (NullPointerException e) {
-			SysUtil.error("No connection with the name [0] has been established!", db);
+			Sys.error("No connection with the name [0] has been established!", db);
 		}
 		return null;
 	}

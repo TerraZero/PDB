@@ -7,7 +7,7 @@ import tz.pdb.api.base.DBStatement;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBInfo;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 public class SQLInfo extends SQLStatement implements DBInfo {
 	
@@ -15,25 +15,25 @@ public class SQLInfo extends SQLStatement implements DBInfo {
 
 	@Override
 	public DBResult exe() {
-		SysUtil.warn("Info can not use the exe method!");
+		Sys.warn("Info can not use the exe method!");
 		return null;
 	}
 	
 	@Override
 	public String built() {
-		SysUtil.warn("Info can not use the built method!");
+		Sys.warn("Info can not use the built method!");
 		return null;
 	}
 	
 	@Override
 	public String statement() {
-		SysUtil.warn("Info can not use the statement method!");
+		Sys.warn("Info can not use the statement method!");
 		return null;
 	}
 	
 	@Override
 	public DBStatement placeholder(String placeholder, String value) {
-		SysUtil.warn("Info can not use the placeholder method!");
+		Sys.warn("Info can not use the placeholder method!");
 		return this;
 	}
 	
@@ -56,7 +56,7 @@ public class SQLInfo extends SQLStatement implements DBInfo {
 					this.tables = new String[result.getInt(1)];
 				}
 			} catch (SQLException e) {
-				SysUtil.error("Can not read the count of tables!");
+				Sys.error("Can not read the count of tables!");
 			}
 			
 			query.query("SELECT name AS name FROM sqlite_master WHERE type = 'table'");
@@ -67,7 +67,7 @@ public class SQLInfo extends SQLStatement implements DBInfo {
 					this.tables[i++] = result.getString(1);
 				}
 			} catch (SQLException e) {
-				SysUtil.error("Can not read the tables!");
+				Sys.error("Can not read the tables!");
 			}
 		}
 		return this.tables;
@@ -75,7 +75,7 @@ public class SQLInfo extends SQLStatement implements DBInfo {
 
 	@Override
 	public String autoIncrement() {
-		SysUtil.warn("SQLite have not a autoincrements state!");
+		Sys.warn("SQLite have not a autoincrements state!");
 		return "";
 	}
 

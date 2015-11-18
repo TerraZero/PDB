@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBQuery;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 public class SQLQuery extends SQLStatement implements DBQuery {
 	
@@ -24,7 +24,7 @@ public class SQLQuery extends SQLStatement implements DBQuery {
 		try {
 			return this.driver().execute().executeQuery(this.statement());
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the query statement.");
+			Sys.error("Can not execute the query statement.");
 			return null;
 		}
 	}
@@ -40,7 +40,7 @@ public class SQLQuery extends SQLStatement implements DBQuery {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeQuery(statement));
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the query statement.");
+			Sys.error("Can not execute the query statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}

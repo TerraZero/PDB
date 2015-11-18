@@ -9,7 +9,7 @@ import tz.pdb.api.functions.DBResult;
 import tz.pdb.api.statements.DBCreate;
 import tz.pdb.drivers.sql.fields.SQLDefineField;
 import tz.pdb.drivers.sql.fields.SQLStatement;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 /**
  * 
@@ -135,7 +135,7 @@ public class SQLCreate extends SQLStatement implements DBCreate {
 		try {
 			return this.driver().execute().executeUpdate(this.statement());
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the table statement.");
+			Sys.error("Can not execute the table statement.");
 			return -1;
 		}
 	}
@@ -146,7 +146,7 @@ public class SQLCreate extends SQLStatement implements DBCreate {
 		try {
 			return new DBResult(statement, this.type(), this.driver().execute().executeUpdate(statement));
 		} catch (SQLException e) {
-			SysUtil.error("Can not execute the table statement.");
+			Sys.error("Can not execute the table statement.");
 			return new DBResult(statement, this.type(), e);
 		}
 	}

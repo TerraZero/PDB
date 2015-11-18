@@ -24,7 +24,7 @@ import tz.pdb.drivers.sql.statements.SQLOperation;
 import tz.pdb.drivers.sql.statements.SQLQuery;
 import tz.pdb.drivers.sql.statements.SQLSelect;
 import tz.pdb.drivers.sql.statements.SQLUpdate;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 /**
  * 
@@ -36,7 +36,7 @@ import tz.sys.SysUtil;
  * @identifier TZ.sql.driver.sqlite
  *
  */
-public class SQLDriver implements DBDriver {
+public abstract class SQLDriver implements DBDriver {
 	
 	protected Connection connection;
 	protected DBInfo info;
@@ -46,7 +46,7 @@ public class SQLDriver implements DBDriver {
 	 */
 	@Override
 	public boolean connect(String host, String user, String pass) {
-		SysUtil.error("Default connection not implement.");
+		Sys.error("Default connection not implement.");
 		return false;
 	}
 
@@ -107,7 +107,7 @@ public class SQLDriver implements DBDriver {
 		try {
 			return this.connection.createStatement();
 		} catch (SQLException e) {
-			SysUtil.error("Can not create a SQLite statement interface!");
+			Sys.error("Can not create a SQLite statement interface!");
 			return null;
 		}
 	}
@@ -199,7 +199,7 @@ public class SQLDriver implements DBDriver {
 				case DBCreate.TYPE :
 					return new DBResult(statement, type, this.execute().executeUpdate(statement));
 				default :
-					SysUtil.warn("The statment type [0] is not supported.", type);
+					Sys.warn("The statment type [0] is not supported.", type);
 			}
 		} catch (SQLException e) {
 			return new DBResult(statement, type, e);

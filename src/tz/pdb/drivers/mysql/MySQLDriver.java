@@ -3,8 +3,11 @@ package tz.pdb.drivers.mysql;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 import tz.pdb.drivers.sql.SQLDriver;
-import tz.sys.SysUtil;
+import tz.sys.Sys;
+import tz.sys.reflect.annot.Loader;
 
 /**
  * 
@@ -16,7 +19,12 @@ import tz.sys.SysUtil;
  * @identifier TZ.sql.driver.mysql
  *
  */
+@Loader(triggers={"DB"})
 public class MySQLDriver extends SQLDriver {
+	
+	public static void init(String trigger) {
+		System.out.println("ok");
+	}
 
 	public String ident() {
 		return "DB::Driver::Def::MySQL";
@@ -29,14 +37,19 @@ public class MySQLDriver extends SQLDriver {
 	public boolean connect(String host, String user, String pass) {
 		try {
 			this.connection = DriverManager.getConnection("jdbc:mysql://" + host + "?user=" + user + "&password=" + pass);
-			SysUtil.log("Connect to mysql database via host [0] and user [1] successfully!", host, user);
+			Sys.log("Connect to mysql database via host [0] and user [1] successfully!", host, user);
 		} catch (SQLException e) {
-			SysUtil.error("Can not connect to host [0] with the user [1]!", host, user);
-			SysUtil.exception(e);
+			Sys.error("Can not connect to host [0] with the user [1]!", host, user);
+			Sys.exception(e);
 			e.printStackTrace();
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String name() {
+		return "mysql";
 	}
 	
 }

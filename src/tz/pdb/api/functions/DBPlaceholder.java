@@ -3,7 +3,7 @@ package tz.pdb.api.functions;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import tz.sys.SysUtil;
+import tz.sys.Sys;
 
 /**
  * 
@@ -38,11 +38,11 @@ public class DBPlaceholder {
 						int test = Integer.parseInt(entry.getValue());
 						value = test + "";
 					} catch (NumberFormatException e) {
-						SysUtil.warn("Value [0] can not be converted into integer.", entry.getValue());
+						Sys.warn("Value [0] can not be converted into integer.", entry.getValue());
 					}
 					break;
 				default :
-					SysUtil.warn("Placeholder [0] have an unknown prefix [1].", entry.getKey(), prefix + "");
+					Sys.warn("Placeholder [0] have an unknown prefix [1].", entry.getKey(), prefix + "");
 					break;
 			}
 			if (value != null) {
@@ -69,7 +69,7 @@ public class DBPlaceholder {
 					int test = Integer.parseInt(value.substring(1));
 					return test + "";
 				} catch (NumberFormatException e) {
-					SysUtil.warn("Value [0] can not be converted into integer.", value);
+					Sys.warn("Value [0] can not be converted into integer.", value);
 				}
 			default : 
 				if (!strict) {
@@ -77,7 +77,7 @@ public class DBPlaceholder {
 				}
 				break;
 		}
-		SysUtil.warn("Value [0] have an unknown prefix [1].", value, prefix + "");
+		Sys.warn("Value [0] have an unknown prefix [1].", value, prefix + "");
 		return null;
 	}
 	
