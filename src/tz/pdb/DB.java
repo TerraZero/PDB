@@ -85,46 +85,106 @@ public class DB {
 		return null;
 	}
 	
+	/**
+	 * Use for:
+	 * 	- Select Query
+	 * @return DBSelect
+	 */
 	public static DBSelect select() {
 		return DB.select(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * Use for:
+	 * 	- Select Query
+	 * @param db - db name
+	 * @return DBSelect
+	 */
 	public static DBSelect select(String db) {
 		return DB.get(db).dbDriver().select();
 	}
 	
+	/**
+	 * Use for:
+	 * 	- Table Create Query
+	 * @return DBCreate
+	 */
 	public static DBCreate table() {
 		return DB.table(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * Use for:
+	 * 	- Table Create Query
+	 * @param db - db name
+	 * @return DBCreate
+	 */
 	public static DBCreate table(String db) {
 		return DB.get(db).dbDriver().create();
 	}
 	
+	/**
+	 * Use for:
+	 * 	 - Insert Query
+	 * @return DBInsert
+	 */
 	public static DBInsert insert() {
 		return DB.insert(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * Use for:
+	 * 	- Insert Query
+	 * @param db - db name
+	 * @return DBInsert
+	 */
 	public static DBInsert insert(String db) {
 		return DB.get(db).dbDriver().insert();
 	}
 	
+	/**
+	 * Use for:
+	 *  - Update Query
+	 * @return DBUpdate
+	 */
 	public static DBUpdate update() {
 		return DB.update(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * Use for:
+	 *  - Update Query
+	 * @param db - db name
+	 * @return DBUpdate
+	 */
 	public static DBUpdate update(String db) {
 		return DB.get(db).dbDriver().update();
 	}
 	
+	/**
+	 * Use for:
+	 *  - Delete Query
+	 * @return DBDelete
+	 */
 	public static DBDelete delete() {
 		return DB.delete(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * Use for:
+	 *  - Delete Query
+	 * @param db - db name
+	 * @return DBDelete
+	 */
 	public static DBDelete delete(String db) {
 		return DB.get(db).dbDriver().delete();
 	}
 	
+	/**
+	 * Use for:
+	 * 	- Operation Query
+	 * @return DBOperation
+	 */
 	public static DBOperation operation() {
 		return DB.operation(DB.DEFAULT_DB);
 	}
