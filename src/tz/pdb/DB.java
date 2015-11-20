@@ -42,6 +42,10 @@ public class DB {
 		ReflectUtil.trigger("DB");
 	}
 	
+	/**
+	 * Extend a query with all extendern.
+	 * @param statement - the query
+	 */
 	public static void extend(DBStatement statement) {
 		for (DBExtendData data : statement.extend()) {
 			if (!data.isLoaded()) {
@@ -56,6 +60,11 @@ public class DB {
 		}
 	}
 	
+	/**
+	 * Get the db extender from name
+	 * @param extend - the name of the extender
+	 * @return DBExtender
+	 */
 	public static DBExtender extender(String extend) {
 		for (DBExtender extender : DB.extender) {
 			if (extender.name().equals(extend)) {
@@ -65,10 +74,22 @@ public class DB {
 		return null;
 	}
 	
+	/**
+	 * Add an db extender
+	 * @param extender - the extender
+	 */
 	public static void addExtender(DBExtender extender) {
 		DB.extender.add(extender);
 	}
 	
+	/**
+	 * Create a db definition
+	 * @param name - the name of the db definition
+	 * @param host - the host of db
+	 * @param user - the user to login on db
+	 * @param password - the password for the user
+	 * @param driver - the driver for this connection
+	 */
 	public static void create(String name, String host, String user, String password, DBDriver driver) {
 		if (DB.dbs == null) {
 			DB.dbs = new HashMap<String, DB>();
@@ -76,6 +97,11 @@ public class DB {
 		DB.dbs.put(name, new DB(host, user, password, driver));
 	}
 	
+	/**
+	 * Get a db definition.
+	 * @param name - name of the definition
+	 * @return DB
+	 */
 	public static DB get(String name) {
 		try {
 			return DB.dbs.get(name);
@@ -183,36 +209,86 @@ public class DB {
 	/**
 	 * Use for:
 	 * 	- Operation Query
+	 * 		- DROP TABLE
+	 * 		- TRUNCATE TABLE
 	 * @return DBOperation
 	 */
 	public static DBOperation operation() {
 		return DB.operation(DB.DEFAULT_DB);
 	}
-
+	
+	/**
+	 * <strong>Not Executable Query!</strong>
+	 * Use for:
+	 * 	- Operation Query
+	 * 		- DROP TABLE
+	 * 		- TRUNCATE TABLE
+	 * @param db - db name
+	 * @return DBOperation
+	 */
 	public static DBOperation operation(String db) {
 		return DB.get(db).dbDriver().operation();
 	}
 	
+	/**
+	 * <strong>Not Executable Query!</strong>
+	 * Use for:
+	 * 	- Info Query
+	 * 		- Get Tables Name
+	 * 		- Get Autoincrement State
+	 * @return DBInfo
+	 */
 	public static DBInfo info() {
 		return DB.info(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * <strong>Not Executable Query!</strong>
+	 * Use for:
+	 * 	- Info Query
+	 * 		- Get Tables Name
+	 * 		- Get Autoincrement State
+	 * @param db - db name
+	 * @return DBInfo
+	 */
 	public static DBInfo info(String db) {
 		return DB.get(db).dbDriver().info();
 	}
 	
+	/**
+	 * Use for:
+	 * 	- All Querys without controlling.
+	 *  - Only when you know SQL!
+	 * @return DBQuery
+	 */
 	public static DBQuery query() {
 		return DB.query(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * Use for:
+	 * 	- All Querys without controlling.
+	 *  - Only when you know SQL!
+	 * @param db - db name
+	 * @return DBQuery
+	 */
 	public static DBQuery query(String db) {
 		return DB.get(db).dbDriver().query();
 	}
 	
+	/**
+	 * Get the default loaded driver.
+	 * @return DBDriver
+	 */
 	public static DBDriver driver() {
 		return DB.driver(DB.DEFAULT_DB);
 	}
 	
+	/**
+	 * Get the loaded driver of db.
+	 * @param db - db name
+	 * @return DBDriver
+	 */
 	public static DBDriver driver(String db) {
 		try {
 			return DB.get(db).dbDriver();
