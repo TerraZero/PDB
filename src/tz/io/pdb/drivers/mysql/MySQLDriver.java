@@ -3,9 +3,9 @@ package tz.io.pdb.drivers.mysql;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import tz.io.pdb.api.DBAPIDriver;
 import tz.io.pdb.drivers.sql.SQLDriver;
 import tz.sys.Sys;
-import tz.sys.reflect.annot.Loader;
 
 /**
  * 
@@ -17,12 +17,8 @@ import tz.sys.reflect.annot.Loader;
  * @identifier TZ.sql.driver.mysql
  *
  */
-@Loader(triggers={"DB"})
+@DBAPIDriver(name="mysql")
 public class MySQLDriver extends SQLDriver {
-	
-	public static void init(String trigger) {
-		System.out.println("ok");
-	}
 
 	public String ident() {
 		return "DB::Driver::Def::MySQL";
@@ -43,11 +39,6 @@ public class MySQLDriver extends SQLDriver {
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public String name() {
-		return "mysql";
 	}
 	
 }

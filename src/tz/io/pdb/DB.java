@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.sqlite.SQLiteConfig.SynchronousMode;
+
+import tz.io.pdb.api.DBAPIDriver;
 import tz.io.pdb.api.DBDriver;
 import tz.io.pdb.api.base.DBExtendData;
 import tz.io.pdb.api.base.DBStatement;
@@ -18,6 +21,7 @@ import tz.io.pdb.api.statements.DBQuery;
 import tz.io.pdb.api.statements.DBSelect;
 import tz.io.pdb.api.statements.DBUpdate;
 import tz.sys.Sys;
+import tz.sys.reflect.Reflect;
 import tz.sys.reflect.ReflectUtil;
 
 /**
@@ -95,6 +99,28 @@ public class DB {
 			DB.dbs = new HashMap<String, DB>();
 		}
 		DB.dbs.put(name, new DB(host, user, password, driver));
+	}
+	
+	/**
+	 * Create a db definition
+	 * @param name - the name of the db definition
+	 * @param host - the host of db
+	 * @param user - the user to login on db
+	 * @param password - the password for the user
+	 * @param driver - the driver name for this connection
+	 */
+	public static void create(String name, String host, String user, String password, String driver) {
+		ReflectUtil util = ReflectUtil.annotation(DBAPIDriver.class);
+		System.out.println(util.reflects().size());
+		for (Reflect r : util.reflects()) {
+			DBAPIDriver a = r.annotation(DBAPIDriver.class);
+			if (a.name().equals(driver)) {
+				DBDriver d = r.instantiate().getReflect();
+				DB.create(name, host, user, password, d);
+				return;
+			}
+		}
+		Sys.warn("DB driver [0] not found!", driver);
 	}
 	
 	/**

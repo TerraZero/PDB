@@ -4,9 +4,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import tz.io.pdb.api.DBAPIDriver;
 import tz.io.pdb.drivers.sql.SQLDriver;
 import tz.sys.Sys;
 
+@DBAPIDriver(name="sqlite")
 public class SQLiteDriver extends SQLDriver {
 
 	public String ident() {
@@ -40,11 +42,6 @@ public class SQLiteDriver extends SQLDriver {
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public String name() {
-		return "sqlite";
 	}
 	
 }
