@@ -3,7 +3,6 @@ package tz.pdb;
 import java.util.List;
 
 import tz.pdb.api.DBDriver;
-import tz.sys.reflect.Reflect;
 import tz.sys.reflect.ReflectUtil;
 
 public class RefTest {

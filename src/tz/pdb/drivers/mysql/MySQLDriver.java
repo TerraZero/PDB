@@ -3,11 +3,8 @@ package tz.pdb.drivers.mysql;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.xml.bind.annotation.XmlTransient;
-
 import tz.pdb.drivers.sql.SQLDriver;
 import tz.sys.Sys;
-import tz.sys.reflect.annot.Loader;
 
 /**
  * 
@@ -19,12 +16,7 @@ import tz.sys.reflect.annot.Loader;
  * @identifier TZ.sql.driver.mysql
  *
  */
-@Loader(triggers={"DB"})
 public class MySQLDriver extends SQLDriver {
-	
-	public static void init(String trigger) {
-		System.out.println("ok");
-	}
 
 	public String ident() {
 		return "DB::Driver::Def::MySQL";
