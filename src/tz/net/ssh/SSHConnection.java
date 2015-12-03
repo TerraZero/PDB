@@ -6,7 +6,7 @@ import java.util.List;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import tz.sys.reflect.annot.Loader;
+import tz.sys.reflect.api.Loader;
 
 @Loader(triggers={"sysexit"}, function="exit")
 public class SSHConnection {
@@ -93,7 +93,7 @@ public class SSHConnection {
 	 * Get the forwarding port with getServicePort(target);
 	 * @param local - the local port to bind the connection
 	 * @param bind - the host to bind the connection default: "localhost"
-	 * @param target - the target port to the service
+	 * @param target - the target port for the service
 	 * @return this
 	 */
 	public SSHConnection service(int local, String bind, int target) {

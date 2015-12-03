@@ -111,7 +111,6 @@ public class DB {
 	 */
 	public static void create(String name, String host, String user, String password, String driver) {
 		ReflectUtil util = ReflectUtil.annotation(DBAPIDriver.class);
-		System.out.println(util.reflects().size());
 		for (Reflect r : util.reflects()) {
 			DBAPIDriver a = r.annotation(DBAPIDriver.class);
 			if (a.name().equals(driver)) {

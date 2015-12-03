@@ -1,14 +1,23 @@
 package tz.io.pdb;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import tz.io.pdb.api.base.DBExtendData;
 import tz.io.pdb.api.base.DBStatement;
 import tz.io.pdb.api.fields.DBJoin;
 import tz.io.pdb.api.functions.DBBuffer;
 import tz.io.pdb.api.functions.DBExtender;
+import tz.io.pdb.api.functions.DBResult;
 import tz.io.pdb.api.statements.DBCreate;
 import tz.io.pdb.api.statements.DBInsert;
+import tz.io.pdb.api.statements.DBQuery;
 import tz.io.pdb.api.statements.DBSelect;
+import tz.io.pdb.drivers.mysql.MySQLDriver;
 import tz.io.pdb.drivers.sqlite.SQLiteDriver;
+import tz.sys.Sys;
+import tz.sys.reflect.api.Program;
+import tz.sys.vui.VUI;
 
 /**
  * 
@@ -20,10 +29,33 @@ import tz.io.pdb.drivers.sqlite.SQLiteDriver;
  * @identifier tz.pdb
  *
  */
+@Program(name="PDB Test", tags={"vui"})
 public class PDBExample {
+	
+	public static void program() {
+		VUI.debug(true);
+		DB.create(DB.DEFAULT_DB, "zaheylu.me::terra::servzero0", "terra", "1234", "sshmysql");
+		DBQuery q = DB.query().query("USE tz_next");
+		q.exe();
+		DBSelect s = DB.select();
+		s.from("test", "t");
+		s.fields("t", "id", "test");
+		ResultSet r = s.execute();
+		try {
+			while (r.next()) {
+				System.out.println(r.getString(1));
+				System.out.println(r.getString(2));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(s.statement());
+		Sys.exit();
+	}
 
-	public static void main(String[] args) {
-		DB.create(DB.DEFAULT_DB, "localhost", "test", "zes", "mysql");
+//	public static void main(String[] args) {
+//		DB.create(DB.DEFAULT_DB, "localhost", "test", "zes", "mysql");
 //		DB.create(DB.DEFAULT_DB, "db/test.db", null, null, new SQLiteDriver());
 //		DB.addExtender(new DBExtender() {
 //			
@@ -66,6 +98,6 @@ public class PDBExample {
 //		DBSelect s = DB.select();
 //		s.selectAll().from("test", "t").where("?[test].test", "'test'");
 //		System.out.println(s.built());
-	}
+//	}
 	
 }
