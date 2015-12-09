@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import tz.io.pdb.api.DBAPIDriver;
+import tz.io.pdb.api.statements.DBInfo;
 import tz.io.pdb.drivers.sql.SQLDriver;
+import tz.io.pdb.drivers.sqlite.statement.SQLiteInfo;
 import tz.sys.Sys;
 
 @DBAPIDriver(name="sqlite")
@@ -42,6 +44,15 @@ public class SQLiteDriver extends SQLDriver {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public DBInfo info() {
+		if (this.info == null) {
+			this.info = new SQLiteInfo();
+			this.info.driver(this);
+		}
+		return this.info;
 	}
 	
 }

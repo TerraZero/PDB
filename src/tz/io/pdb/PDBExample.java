@@ -10,6 +10,7 @@ import tz.io.pdb.api.functions.DBBuffer;
 import tz.io.pdb.api.functions.DBExtender;
 import tz.io.pdb.api.functions.DBResult;
 import tz.io.pdb.api.statements.DBCreate;
+import tz.io.pdb.api.statements.DBInfo;
 import tz.io.pdb.api.statements.DBInsert;
 import tz.io.pdb.api.statements.DBQuery;
 import tz.io.pdb.api.statements.DBSelect;
@@ -18,6 +19,7 @@ import tz.io.pdb.drivers.sqlite.SQLiteDriver;
 import tz.sys.Sys;
 import tz.sys.reflect.api.Program;
 import tz.sys.vui.VUI;
+import tz.sys.vui.input.VUIInput;
 
 /**
  * 
@@ -35,23 +37,33 @@ public class PDBExample {
 	public static void program() {
 		VUI.debug(true);
 		DB.create(DB.DEFAULT_DB, "zaheylu.me::terra::servzero0", "terra", "1234", "sshmysql");
-		DBQuery q = DB.query().query("USE tz_next");
-		q.exe();
-		DBSelect s = DB.select();
-		s.from("test", "t");
-		s.fields("t", "id", "test");
-		ResultSet r = s.execute();
-		try {
-			while (r.next()) {
-				System.out.println(r.getString(1));
-				System.out.println(r.getString(2));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		DBInfo info = DB.info();
+		String[] d = info.databases();
+		for (String s : d) {
+			Sys.log(s);
 		}
-		System.out.println(s.statement());
-		Sys.exit();
+		info.use("tz_next");
+		String[] t = info.tables();
+		for (String s : t) {
+			Sys.log(s);
+		}
+//		DBQuery q = DB.query().query("USE tz_next");
+//		q.exe();
+//		DBSelect s = DB.select();
+//		s.from("test", "t");
+//		s.fields("t", "id", "test");
+//		ResultSet r = s.execute();
+//		try {
+//			while (r.next()) {
+//				System.out.println(r.getString(1));
+//				System.out.println(r.getString(2));
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println(s.statement());
+		VUI.exitQuestion();
 	}
 
 //	public static void main(String[] args) {

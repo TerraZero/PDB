@@ -18,4 +18,14 @@ public interface DBInfo extends DBStatement {
 	
 	public String autoIncrement();
 	
+	public DBInfo use(String database);
+	
+	public String use();
+	
+	public default String[] databases() {
+		return this.databases(false);
+	}
+	
+	public String[] databases(boolean force);
+	
 }
